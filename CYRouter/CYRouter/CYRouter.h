@@ -29,11 +29,6 @@ typedef void (^CYRouterCallback)(NSDictionary *params);
 
 @interface CYRouter : NSObject
 
-+ (instancetype)share;
-+ (void)addRoute:(NSString *)route paramRegexs:(NSDictionary *)paramRegexs callback:(CYRouterCallback)callback;
-+ (BOOL)open:(NSString *)url;
-+ (BOOL)open:(NSString *)url params:(NSDictionary *)params;
-
 - (void)addRoute:(NSString *)route paramRegexs:(NSDictionary *)paramRegexs callback:(CYRouterCallback)callback;
 
 @end

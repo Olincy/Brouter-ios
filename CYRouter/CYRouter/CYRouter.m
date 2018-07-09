@@ -297,12 +297,6 @@ static CYRouter *instance = nil;
     return [outputStr stringByRemovingPercentEncoding];
 }
 
-
-+ (void)addRoute:(NSString *)route paramRegexs:(NSDictionary *)paramRegexs callback:(CYRouterCallback)callback {
-    [[CYRouter share]addRoute:route paramRegexs:paramRegexs callback:callback];
-}
-
-
 @end
 
 

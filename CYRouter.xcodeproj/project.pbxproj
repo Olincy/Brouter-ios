@@ -17,6 +17,8 @@
 		BE12DB2820F3431300D9779B /* CYRouterUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB2720F3431300D9779B /* CYRouterUITests.m */; };
 		BE12DB3720F3453100D9779B /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3620F3453100D9779B /* Common.m */; };
 		BE12DB3B20F34AF200D9779B /* CYRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3A20F34AF200D9779B /* CYRouter.m */; };
+		BE12DB3E20F3722500D9779B /* RegisterRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3D20F3722500D9779B /* RegisterRoutesController.m */; };
+		BE12DB4120F3724300D9779B /* TestRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB4020F3724300D9779B /* TestRoutesController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,10 @@
 		BE12DB3620F3453100D9779B /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		BE12DB3920F34AF200D9779B /* CYRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYRouter.h; sourceTree = "<group>"; };
 		BE12DB3A20F34AF200D9779B /* CYRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYRouter.m; sourceTree = "<group>"; };
+		BE12DB3C20F3722500D9779B /* RegisterRoutesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterRoutesController.h; sourceTree = "<group>"; };
+		BE12DB3D20F3722500D9779B /* RegisterRoutesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterRoutesController.m; sourceTree = "<group>"; };
+		BE12DB3F20F3724300D9779B /* TestRoutesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRoutesController.h; sourceTree = "<group>"; };
+		BE12DB4020F3724300D9779B /* TestRoutesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestRoutesController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +118,10 @@
 				BE12DB0420F3431100D9779B /* AppDelegate.m */,
 				BE12DB0620F3431100D9779B /* ViewController.h */,
 				BE12DB0720F3431100D9779B /* ViewController.m */,
+				BE12DB3C20F3722500D9779B /* RegisterRoutesController.h */,
+				BE12DB3D20F3722500D9779B /* RegisterRoutesController.m */,
+				BE12DB3F20F3724300D9779B /* TestRoutesController.h */,
+				BE12DB4020F3724300D9779B /* TestRoutesController.m */,
 				BE12DB0920F3431100D9779B /* Main.storyboard */,
 				BE12DB0C20F3431200D9779B /* Assets.xcassets */,
 				BE12DB0E20F3431200D9779B /* LaunchScreen.storyboard */,
@@ -284,6 +294,8 @@
 				BE12DB3720F3453100D9779B /* Common.m in Sources */,
 				BE12DB0820F3431100D9779B /* ViewController.m in Sources */,
 				BE12DB1320F3431200D9779B /* main.m in Sources */,
+				BE12DB4120F3724300D9779B /* TestRoutesController.m in Sources */,
+				BE12DB3E20F3722500D9779B /* RegisterRoutesController.m in Sources */,
 				BE12DB0520F3431100D9779B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

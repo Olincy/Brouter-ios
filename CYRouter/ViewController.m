@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "Common.h"
+#import "RegisterRoutesController.h"
+#import "TestRoutesController.h"
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -18,19 +20,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.names2Vcs = @[@{@"name":@"routes test",
-                        @"vc":[UIViewController class]
-                        }];
+    [self tableView];
+    self.names2Vcs = @[
+                        @{
+                            @"name":@"routes test",
+                            @"vc":[TestRoutesController class]
+                         },
+                        @{
+                            @"name":@"register test",
+                             @"vc":[RegisterRoutesController class]
+                        }
+                        ];
 }
 
 #pragma mark - TableView Datasource & Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.names2Vcs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    NSString *title = [[self.names2Vcs objectAtIndex:indexPath.row] objectForKey:@"name"];
+    cell.textLabel.text = title;
     return cell;
 }
 
@@ -39,7 +51,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Class vcClass = [[self.names2Vcs objectAtIndex:indexPath.row] objectForKey:@"vc"];
+    [self.navigationController pushViewController:([vcClass new]) animated:YES];
 }
 
 
