@@ -28,7 +28,9 @@ typedef void (^CYRouterCallback)(NSDictionary *params);
 
 
 @interface CYRouter : NSObject
-
+@property (nonatomic, strong) NSString *hostName;
+@property (nonatomic, strong) NSArray<NSString *> *hostAliases;
++ (instancetype)share;
 - (void)addRoute:(NSString *)route paramRegexs:(NSDictionary *)paramRegexs callback:(CYRouterCallback)callback;
-
+- (BOOL)open:(NSString *)url;
 @end

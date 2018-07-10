@@ -10,6 +10,8 @@
 #import "Common.h"
 #import "RegisterRoutesController.h"
 #import "TestRoutesController.h"
+#import "Router.h"
+
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -31,6 +33,13 @@
                              @"vc":[RegisterRoutesController class]
                         }
                         ];
+    
+    // register routes
+    [CYRouter share].hostName = @"www.lincuiyang.com";
+    [CYRouter share].hostAliases =  @[@"lincuiyang.com",@"test.lincuiyang.com",@"pre.lincuiyang.com"];
+    [[CYRouter share] addRoute:@"/post/:postId" paramRegexs:nil callback:^(NSDictionary *params) {
+        
+    }];
 }
 
 #pragma mark - TableView Datasource & Delegate

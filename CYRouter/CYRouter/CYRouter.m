@@ -42,8 +42,7 @@
 
 
 @interface CYRouter ()
-@property (nonatomic, strong) NSString *host;
-@property (nonatomic, strong) NSArray<NSString *> *aliases;
+
 @property (nonatomic, strong) NSMutableDictionary <NSString*,NSMutableDictionary*> *schemes;
 @end
 @implementation CYRouter
@@ -247,10 +246,10 @@ static CYRouter *instance = nil;
 }
 
 - (BOOL)containHost:(NSString *)host {
-    if ([self.host isEqualToString:host]) {
+    if ([self.hostName isEqualToString:host]) {
         return YES;
     }
-    for (NSString *alias in self.aliases) {
+    for (NSString *alias in self.hostAliases) {
         if ([alias isEqualToString:host]) {
             return YES;
         }
@@ -259,18 +258,18 @@ static CYRouter *instance = nil;
 }
 
 - (NSString *)getPathFromRoute:(NSString *)route {
-    NSString *host = [NSString stringWithFormat:@"/%@",self.host];
+    NSString *host = [NSString stringWithFormat:@"/%@",self.hostName];
     if ([route hasPrefix:host]) {
         return route;
     }
-    for (NSString *alias in self.aliases) {
+    for (NSString *alias in self.hostAliases) {
         NSString *host = [NSString stringWithFormat:@"/%@",alias];
         if ([route hasPrefix:host]) {
-            route = [route stringByReplacingOccurrencesOfString:alias withString:self.host];
+            route = [route stringByReplacingOccurrencesOfString:alias withString:self.hostName];
             return route;
         }
     }
-    NSString *path = [NSString stringWithFormat:@"%@%@",self.host,route];
+    NSString *path = [NSString stringWithFormat:@"%@%@",self.hostName,route];
     if (![path hasPrefix:@"/"]) {path = [NSString stringWithFormat:@"/%@",path];}
     return path;
 }
@@ -295,6 +294,25 @@ static CYRouter *instance = nil;
     NSMutableString *outputStr = [NSMutableString stringWithString:input];
     [outputStr replaceOccurrencesOfString:@"+" withString:@"" options:NSLiteralSearch range:NSMakeRange(0,[outputStr length])];
     return [outputStr stringByRemovingPercentEncoding];
+}
+
+- (BOOL)open:(NSString *)url {
+    TCRouteParser *parser = [self prase:url];
+    if (parser.callback) {
+        parser.callback(parser.params);
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark - Class
++ (instancetype)share {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc]init];
+    });
+    
+    return instance;
 }
 
 @end
