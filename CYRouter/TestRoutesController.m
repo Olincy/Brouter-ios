@@ -7,7 +7,7 @@
 //
 
 #import "TestRoutesController.h"
-#import "CYRouter.h"
+#import "BrouterCore.h"
 
 @interface TestRoutesController () <UIWebViewDelegate>
 @property (nonatomic, strong) UIWebView *webView;
@@ -30,9 +30,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *urlStr = request.URL.absoluteString;
-    if ([[CYRouter share]open:urlStr]) {
-        return NO;
-    }
+
     return YES;
 }
 

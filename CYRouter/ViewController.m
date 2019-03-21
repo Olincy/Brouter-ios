@@ -10,12 +10,14 @@
 #import "Common.h"
 #import "RegisterRoutesController.h"
 #import "TestRoutesController.h"
-#import "Router.h"
+#import "BrouterCore.h"
 
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray<NSDictionary *> *names2Vcs;
+@property (nonatomic, strong) NSArray *goodUrls;
+@property (nonatomic, strong) NSArray *badUrls;
 @end
 
 @implementation ViewController
@@ -23,34 +25,79 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self tableView];
-    self.names2Vcs = @[
-                        @{
-                            @"name":@"routes test",
-                            @"vc":[TestRoutesController class]
-                         },
-                        @{
-                            @"name":@"register test",
-                             @"vc":[RegisterRoutesController class]
-                        }
-                        ];
     
-    // register routes
-    [CYRouter share].hostName = @"www.lincuiyang.com";
-    [CYRouter share].hostAliases =  @[@"lincuiyang.com",@"test.lincuiyang.com",@"pre.lincuiyang.com"];
-    [[CYRouter share] addRoute:@"/post/:postId" paramRegexs:nil callback:^(NSDictionary *params) {
-        
-    }];
+//    [[BrouterCore share] inScheme:@"brouter" path2handlers:@[
+//        [BrouteMaker path:@"/path/to/1" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 1");
+//        }],
+//        [BrouteMaker path:@"/path/to/2" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 2");
+//        }],
+//        [BrouteMaker path:@"/path/to/3" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 3");
+//        }],
+//        [BrouteMaker path:@"/path/to1/{id:\\d+}" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 4");
+//        }],
+//
+////        [BrouteMaker path:@"/path/to1/{id:[0-9]+}/{id}" toHandler:^(NSDictionary *params) {
+////        // should get error: duplicate param name
+////        }],
+//        [BrouteMaker path:@"/path/to2/{pv1}" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 5");
+//        }],
+//        [BrouteMaker path:@"brouter://{id:[0-9]+}" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 6");
+//        }],
+//
+////        [BrouteMaker path:@"brouter://" toHandler:^(NSDictionary *params) {
+////            NSLog(@"jump to 6");
+////        }],
+//        [BrouteMaker path:@"brout://{id:[0-9]+}" toHandler:^(NSDictionary *params) {
+//            NSLog(@"jump to 6");
+//        }],
+//    ]];
+    
+    self.goodUrls =@[
+                     @"brouter://path/to/1",
+                     @"brouter://path/to1/250",
+                     @"path/to/3",
+                     @"/path/to/3",
+                     @"path/to2/hello",
+                     @"brouter://301",
+                     @"http://223.255.255.254"];
+    
+    self.badUrls =@[
+                    @"http://www.sample.com/article/{postId}",
+                        @"http://.",
+                       ];
+    
+    
 }
 
 #pragma mark - TableView Datasource & Delegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.names2Vcs.count;
+    if (section==0) {
+        return self.goodUrls.count;
+    } else {
+        return self.badUrls.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSString *title = [[self.names2Vcs objectAtIndex:indexPath.row] objectForKey:@"name"];
+    NSString *title = nil;
+    if (indexPath.section==0) {
+        title = self.goodUrls[indexPath.row];
+    } else {
+        title = self.badUrls[indexPath.row];
+    }
+    
     cell.textLabel.text = title;
     return cell;
 }
@@ -61,8 +108,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    Class vcClass = [[self.names2Vcs objectAtIndex:indexPath.row] objectForKey:@"vc"];
-    [self.navigationController pushViewController:([vcClass new]) animated:YES];
+    BrouterCore *router = [BrouterCore new];
+    NSString *url = nil;
+    if (indexPath.section == 0) {
+        url = self.goodUrls[indexPath.row];
+    } else {
+        url = self.badUrls[indexPath.row];
+    }
+    
+//    [router inScheme:@"brouter" addPath:url toHandler:^(NSDictionary *params) {
+//    }];
+//    [[BrouterCore share]push:url];
+    
 }
 
 

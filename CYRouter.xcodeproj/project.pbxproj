@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		365D2B6B2242357D001B6F18 /* BrouterAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 365D2B6A2242357D001B6F18 /* BrouterAdditions.m */; };
+		365D2B7122427101001B6F18 /* Brouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 365D2B7022427101001B6F18 /* Brouter.m */; };
 		BE12DB0520F3431100D9779B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB0420F3431100D9779B /* AppDelegate.m */; };
 		BE12DB0820F3431100D9779B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB0720F3431100D9779B /* ViewController.m */; };
 		BE12DB0B20F3431100D9779B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE12DB0920F3431100D9779B /* Main.storyboard */; };
@@ -16,10 +18,9 @@
 		BE12DB1D20F3431300D9779B /* CYRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB1C20F3431300D9779B /* CYRouterTests.m */; };
 		BE12DB2820F3431300D9779B /* CYRouterUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB2720F3431300D9779B /* CYRouterUITests.m */; };
 		BE12DB3720F3453100D9779B /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3620F3453100D9779B /* Common.m */; };
-		BE12DB3B20F34AF200D9779B /* CYRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3A20F34AF200D9779B /* CYRouter.m */; };
+		BE12DB3B20F34AF200D9779B /* BrouterCore.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3A20F34AF200D9779B /* BrouterCore.m */; };
 		BE12DB3E20F3722500D9779B /* RegisterRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB3D20F3722500D9779B /* RegisterRoutesController.m */; };
 		BE12DB4120F3724300D9779B /* TestRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB4020F3724300D9779B /* TestRoutesController.m */; };
-		BE5E62EA20F45FDC005A9FCC /* Router.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5E62E920F45FDC005A9FCC /* Router.m */; };
 		BE5E62ED20F466CC005A9FCC /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = BE5E62EC20F466CC005A9FCC /* test.html */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		365D2B50223BC65E001B6F18 /* BrouterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrouterCore.h; sourceTree = "<group>"; };
+		365D2B692242357D001B6F18 /* BrouterAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrouterAdditions.h; sourceTree = "<group>"; };
+		365D2B6A2242357D001B6F18 /* BrouterAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrouterAdditions.m; sourceTree = "<group>"; };
+		365D2B6F22427101001B6F18 /* Brouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Brouter.h; sourceTree = "<group>"; };
+		365D2B7022427101001B6F18 /* Brouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Brouter.m; sourceTree = "<group>"; };
 		BE12DB0020F3431100D9779B /* CYRouter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYRouter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE12DB0320F3431100D9779B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BE12DB0420F3431100D9779B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -59,14 +65,11 @@
 		BE12DB2920F3431300D9779B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE12DB3520F3453100D9779B /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		BE12DB3620F3453100D9779B /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
-		BE12DB3920F34AF200D9779B /* CYRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYRouter.h; sourceTree = "<group>"; };
-		BE12DB3A20F34AF200D9779B /* CYRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYRouter.m; sourceTree = "<group>"; };
+		BE12DB3A20F34AF200D9779B /* BrouterCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrouterCore.m; sourceTree = "<group>"; };
 		BE12DB3C20F3722500D9779B /* RegisterRoutesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterRoutesController.h; sourceTree = "<group>"; };
 		BE12DB3D20F3722500D9779B /* RegisterRoutesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterRoutesController.m; sourceTree = "<group>"; };
 		BE12DB3F20F3724300D9779B /* TestRoutesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestRoutesController.h; sourceTree = "<group>"; };
 		BE12DB4020F3724300D9779B /* TestRoutesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestRoutesController.m; sourceTree = "<group>"; };
-		BE5E62E820F45FDC005A9FCC /* Router.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Router.h; sourceTree = "<group>"; };
-		BE5E62E920F45FDC005A9FCC /* Router.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Router.m; sourceTree = "<group>"; };
 		BE5E62EC20F466CC005A9FCC /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,8 +124,6 @@
 				BE12DB3820F349AD00D9779B /* CYRouter */,
 				BE12DB0320F3431100D9779B /* AppDelegate.h */,
 				BE12DB0420F3431100D9779B /* AppDelegate.m */,
-				BE5E62E820F45FDC005A9FCC /* Router.h */,
-				BE5E62E920F45FDC005A9FCC /* Router.m */,
 				BE12DB0620F3431100D9779B /* ViewController.h */,
 				BE12DB0720F3431100D9779B /* ViewController.m */,
 				BE12DB3C20F3722500D9779B /* RegisterRoutesController.h */,
@@ -159,8 +160,12 @@
 		BE12DB3820F349AD00D9779B /* CYRouter */ = {
 			isa = PBXGroup;
 			children = (
-				BE12DB3920F34AF200D9779B /* CYRouter.h */,
-				BE12DB3A20F34AF200D9779B /* CYRouter.m */,
+				365D2B50223BC65E001B6F18 /* BrouterCore.h */,
+				BE12DB3A20F34AF200D9779B /* BrouterCore.m */,
+				365D2B692242357D001B6F18 /* BrouterAdditions.h */,
+				365D2B6A2242357D001B6F18 /* BrouterAdditions.m */,
+				365D2B6F22427101001B6F18 /* Brouter.h */,
+				365D2B7022427101001B6F18 /* Brouter.m */,
 			);
 			path = CYRouter;
 			sourceTree = "<group>";
@@ -307,11 +312,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE12DB3B20F34AF200D9779B /* CYRouter.m in Sources */,
+				365D2B7122427101001B6F18 /* Brouter.m in Sources */,
+				BE12DB3B20F34AF200D9779B /* BrouterCore.m in Sources */,
 				BE12DB3720F3453100D9779B /* Common.m in Sources */,
+				365D2B6B2242357D001B6F18 /* BrouterAdditions.m in Sources */,
 				BE12DB0820F3431100D9779B /* ViewController.m in Sources */,
 				BE12DB1320F3431200D9779B /* main.m in Sources */,
-				BE5E62EA20F45FDC005A9FCC /* Router.m in Sources */,
 				BE12DB4120F3724300D9779B /* TestRoutesController.m in Sources */,
 				BE12DB3E20F3722500D9779B /* RegisterRoutesController.m in Sources */,
 				BE12DB0520F3431100D9779B /* AppDelegate.m in Sources */,
@@ -486,6 +492,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CYRouter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -504,6 +511,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CYRouter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
