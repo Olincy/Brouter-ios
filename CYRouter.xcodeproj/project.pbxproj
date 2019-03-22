@@ -121,7 +121,7 @@
 		BE12DB0220F3431100D9779B /* CYRouter */ = {
 			isa = PBXGroup;
 			children = (
-				BE12DB3820F349AD00D9779B /* CYRouter */,
+				BE12DB3820F349AD00D9779B /* Brouter */,
 				BE12DB0320F3431100D9779B /* AppDelegate.h */,
 				BE12DB0420F3431100D9779B /* AppDelegate.m */,
 				BE12DB0620F3431100D9779B /* ViewController.h */,
@@ -157,7 +157,7 @@
 			path = CYRouterUITests;
 			sourceTree = "<group>";
 		};
-		BE12DB3820F349AD00D9779B /* CYRouter */ = {
+		BE12DB3820F349AD00D9779B /* Brouter */ = {
 			isa = PBXGroup;
 			children = (
 				365D2B50223BC65E001B6F18 /* BrouterCore.h */,
@@ -167,7 +167,7 @@
 				365D2B6F22427101001B6F18 /* Brouter.h */,
 				365D2B7022427101001B6F18 /* Brouter.m */,
 			);
-			path = CYRouter;
+			path = Brouter;
 			sourceTree = "<group>";
 		};
 		BE5E62EB20F466A8005A9FCC /* Resources */ = {

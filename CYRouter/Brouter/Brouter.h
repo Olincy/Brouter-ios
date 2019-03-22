@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) BrouterCore *routerCore;
 + (instancetype)defaultRouter;
 
-+ (BOOL)inScheme:(NSString *)scheme path2handlers:(NSArray<BroutePath2Handler *> *)path2handlers;
+
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler;
 + (BOOL)route:(NSString *)routeTpl toVC:(NSString *)vcName;
 + (BOOL)canOpenUrl:(NSString *)urlStr;

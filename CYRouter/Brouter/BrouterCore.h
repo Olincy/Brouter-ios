@@ -34,14 +34,6 @@ typedef void (^BrouterHandler)(NSDictionary *params);
 @property (nonatomic, copy) NSString *scheme;
 @end
 
-@interface BroutePath2Handler : NSObject
-@property (nonatomic, copy) NSString *path; // path string
-@property (nonatomic, copy) BrouterHandler handler;
-@end
-
-@interface BrouteMaker : NSObject
-+ (BroutePath2Handler *)path:(NSString *)path toHandler:(BrouterHandler)handler;
-@end
 
 @interface BrouterCore : NSObject
 
@@ -57,8 +49,7 @@ typedef void (^BrouterHandler)(NSDictionary *params);
 // /posts/{category}/
 // /posts/{category}/{id:[0-9]+}
 
-- (BOOL)inScheme:(NSString *)scheme path2handlers:(NSArray<BroutePath2Handler *> *)path2handlers;
+
 - (BroutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler;
-- (BOOL)inScheme:(NSString *)scheme host:(NSString *)host addPath:(NSString *)pathTpl toHandler:(BrouterHandler)handler;
 - (BOOL)push:(NSString *)url;
 @end

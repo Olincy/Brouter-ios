@@ -33,10 +33,6 @@ static Brouter *_instance;
 }
 
 
-+ (BOOL)inScheme:(NSString *)scheme path2handlers:(NSArray<BroutePath2Handler *> *)path2handlers {
-    return NO;
-}
-
 
 + (BOOL)route:(NSString *)routeTpl toVC:(NSString *)vcName {
     return NO;

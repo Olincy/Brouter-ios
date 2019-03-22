@@ -72,6 +72,26 @@
                         @"http://.",
                        ];
     
+    BrouterCore *brouter = [BrouterCore new];
+    BroutePath *path = [brouter route:nil toHandler:^(NSDictionary *params) {
+    }];
+    
+    
+    path = [brouter route:@"/foo" toHandler:nil];
+    
+    
+    path = [brouter route:@"/foo" toHandler:^(NSDictionary *params) {
+    }];
+    
+    
+    path = [brouter route:@"broute://foo?p=20" toHandler:^(NSDictionary *params) {
+    }];
+    path = [brouter route:@"broute://foo/{id}" toHandler:^(NSDictionary *params) {
+    }];
+    path = [brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:^(NSDictionary *params) {
+    }];
+    
+    
     
 }
 

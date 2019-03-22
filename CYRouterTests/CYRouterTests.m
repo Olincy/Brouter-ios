@@ -7,26 +7,84 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "BrouterCore.h"
+
 
 @interface CYRouterTests : XCTestCase
-
+@property (nonatomic, strong) BrouterCore *brouter;
 @end
 
 @implementation CYRouterTests
 
 - (void)setUp {
     [super setUp];
+    self.brouter = [BrouterCore new];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    self.brouter = nil;
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testRouterCoreRegister {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
+    BroutePath *path = [self.brouter route:nil toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"param should not be nil");
+    
+    path = [self.brouter route:@"/foo" toHandler:nil];
+    XCTAssert(path==nil,@"param should not be nil");
+    
+    path = [self.brouter route:@"/foo" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"no scheme");
+    
+    path = [self.brouter route:@"{broute}://foo" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"br{oute}://foo" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"broute:{//}foo" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"broute://{}foo" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"broute://foo{/bar}" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"broute://foo/{bar" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    path = [self.brouter route:@"broute://foo/bar}" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+
+    path = [self.brouter route:@"broute://foo/{{bar}}" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path==nil,@"invalid route tamplate");
+    
+    // valid
+    path = [self.brouter route:@"broute://{foo}" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path!=nil,@"valid route tamplate");
+
+    path = [self.brouter route:@"broute://foo?p=20" toHandler:^(NSDictionary *params) {
+    }];
+    XCTAssert(path!=nil,@"valid route tamplate");
+    
+    
+    
+
 }
 
 - (void)testPerformanceExample {
