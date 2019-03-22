@@ -25,15 +25,15 @@
 @end
 
 #pragma mark - BroutePath
-@interface BroutePath ()
+@interface BrouterRoutePath ()
 
 @end
 
-@implementation BroutePath
+@implementation BrouterRoutePath
 
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[self class]]) {
-        BroutePath *bPath = (BroutePath *)object;
+        BrouterRoutePath *bPath = (BrouterRoutePath *)object;
         if ([self.routeTamplate.path isEqual:bPath.routeTamplate.path]) {
             return YES;
         }
@@ -49,8 +49,8 @@
 
 #pragma mark - BrouteScheme
 @interface BrouteScheme ()
-@property (nonatomic, strong) NSMutableDictionary <NSString *, BroutePath *> *pathsMap;
-@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BroutePath *> *> *regexRoutesMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, BrouterRoutePath *> *pathsMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BrouterRoutePath *> *> *regexRoutesMap;
 @end
 @implementation BrouteScheme
 
@@ -71,8 +71,8 @@
 @interface BrouterCore ()
 @property (nonatomic, copy) NSString *baseScheme;
 @property (nonatomic, copy) NSString *baseHost;
-@property (nonatomic, strong) NSMutableDictionary <NSString *, BroutePath *> *pathsMap;
-@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BroutePath *> *> *regexRoutesMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, BrouterRoutePath *> *pathsMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BrouterRoutePath *> *> *regexRoutesMap;
 @end
 @implementation BrouterCore
 
@@ -86,7 +86,7 @@ static BrouterCore *instance = nil;
     return _schemes;
 }
 
-- (NSMutableDictionary<NSString *,BroutePath *> *)pathsMap {
+- (NSMutableDictionary<NSString *,BrouterRoutePath *> *)pathsMap {
     if (_pathsMap == nil) {
         _pathsMap = [NSMutableDictionary dictionary];
     }
@@ -94,7 +94,7 @@ static BrouterCore *instance = nil;
 }
 
 
-- (NSMutableDictionary<NSString *,NSMutableSet<BroutePath *> *> *)regexRoutesMap {
+- (NSMutableDictionary<NSString *,NSMutableSet<BrouterRoutePath *> *> *)regexRoutesMap {
     if (_regexRoutesMap == nil) {
         _regexRoutesMap = [NSMutableDictionary dictionary];
     }
@@ -102,7 +102,7 @@ static BrouterCore *instance = nil;
 }
 
 
-- (BroutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler {
+- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler {
     if (handler == nil || routeTpl.length == 0) {
         NSLog(@"trying register an empty path or handler");
         return nil;
@@ -118,7 +118,7 @@ static BrouterCore *instance = nil;
     //trying find registered scheme from map
 
 
-    BroutePath *bPath = nil;
+    BrouterRoutePath *bPath = nil;
     if (tamplate.paramRegexs.count) { // with params
         NSRegularExpression *compiledRegex = [self compileRegex:routeTpl params:tamplate.paramRegexs];
         BrouteParamRegex *firstParam = [tamplate.paramRegexs safeObjectAtIndex:0];
@@ -129,8 +129,8 @@ static BrouterCore *instance = nil;
                 regexRouteKey = [regexRouteKey substringToIndex:regexRouteKey.length-1];
             }
         }
-        NSMutableSet<BroutePath *> *routeRegexes = [self.regexRoutesMap objectForKey:regexRouteKey];
-        bPath = [BroutePath new];
+        NSMutableSet<BrouterRoutePath *> *routeRegexes = [self.regexRoutesMap objectForKey:regexRouteKey];
+        bPath = [BrouterRoutePath new];
         bPath.pathRegex = compiledRegex;
         bPath.handler = handler;
         bPath.routeTamplate = tamplate;
@@ -147,7 +147,7 @@ static BrouterCore *instance = nil;
         
         bPath = [self.pathsMap objectForKey:routeKey];
         if (bPath == nil) {
-            bPath = [BroutePath new];
+            bPath = [BrouterRoutePath new];
             [self.pathsMap setValue:bPath forKey:routeKey];
         }
         bPath.handler = handler;
@@ -329,7 +329,7 @@ static BrouterCore *instance = nil;
 }
 
 
-- (NSDictionary *)matchRoute:(BroutePath *)bRoute withUrlStr:(NSString *)urlStr {
+- (NSDictionary *)matchRoute:(BrouterRoutePath *)bRoute withUrlStr:(NSString *)urlStr {
     if (bRoute.pathRegex == nil) {return nil;}
     
     NSArray* matches = [bRoute.pathRegex matchesInString:urlStr options:0 range: NSMakeRange(0, urlStr.length)];
@@ -385,15 +385,15 @@ static BrouterCore *instance = nil;
         }
     }
     
-    BroutePath *path = [self.pathsMap objectForKey:routeStr];
+    BrouterRoutePath *path = [self.pathsMap objectForKey:routeStr];
     if (path == nil) {
         // try from regex map
         
         NSString *routeKey = routeStr.stringByDeletingLastPathComponent;
         while (routeKey.length) {
-            NSMutableSet<BroutePath *> *routeRegexSet = [self.regexRoutesMap objectForKey:routeKey];
+            NSMutableSet<BrouterRoutePath *> *routeRegexSet = [self.regexRoutesMap objectForKey:routeKey];
             if (routeRegexSet.count) {
-                for (BroutePath *regexPath in routeRegexSet) {
+                for (BrouterRoutePath *regexPath in routeRegexSet) {
                     NSDictionary *params = [self matchRoute:regexPath withUrlStr:routeStr ];
                     if (params == nil) {
                         return NO;

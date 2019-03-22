@@ -30,7 +30,7 @@
 - (void)testRouterCoreRegister {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    BroutePath *path = [self.brouter route:nil toHandler:^(NSDictionary *params) {
+    BrouterRoutePath *path = [self.brouter route:nil toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"param should not be nil");
     

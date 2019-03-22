@@ -34,7 +34,7 @@ typedef void (^BrouterHandler)(NSDictionary *params);
 @end
 
 
-@interface BroutePath : NSObject
+@interface BrouterRoutePath : NSObject
 @property (nonatomic, strong) NSRegularExpression *pathRegex; // path regex expression
 @property (nonatomic, strong) BrouterRouteTamplate *routeTamplate;
 @property (nonatomic, copy) BrouterHandler handler;
@@ -44,7 +44,7 @@ typedef void (^BrouterHandler)(NSDictionary *params);
 // decoded url result or resource
 @interface BrouterRes : NSObject
 @property (nonatomic, copy) NSDictionary *params;
-@property (nonatomic, strong) BroutePath *path; //matched registered path
+@property (nonatomic, strong) BrouterRoutePath *path; //matched registered path
 @end
 
 @interface BrouteScheme : NSObject
@@ -67,6 +67,6 @@ typedef void (^BrouterHandler)(NSDictionary *params);
 // /posts/{category}/{id:[0-9]+}
 
 
-- (BroutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler;
+- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler;
 - (BOOL)push:(NSString *)url;
 @end

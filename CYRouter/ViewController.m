@@ -73,7 +73,7 @@
                        ];
     
     BrouterCore *brouter = [BrouterCore new];
-    BroutePath *path = [brouter route:nil toHandler:^(NSDictionary *params) {
+    BrouterRoutePath *path = [brouter route:nil toHandler:^(NSDictionary *params) {
     }];
     
     
