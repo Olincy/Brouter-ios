@@ -13,22 +13,11 @@
 #define BROUTER_NIL_PATH        (@"/")
 
 #pragma mark - BrouteParamRegex
-@interface BrouteParamRegex : NSObject
-@property (nonatomic, assign) NSInteger start;
-@property (nonatomic, assign) NSInteger end;
-@property (nonatomic, copy) NSString *occurrenceStr; //Occurrence string
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *regex;
-@end
+
 
 @implementation BrouteParamRegex
 @end
 
-@interface BrouterRouteTamplate : NSObject
-@property (nonatomic, copy) NSString *scheme;
-@property (nonatomic, copy) NSString *path;
-@property (nonatomic, copy) NSArray<BrouteParamRegex *> *paramRegexs;
-@end
 
 @implementation BrouterRouteTamplate
 
@@ -37,22 +26,15 @@
 
 #pragma mark - BroutePath
 @interface BroutePath ()
-@property (nonatomic, strong) NSArray<BrouteParamRegex *> *paramRegexes;
+
 @end
 
 @implementation BroutePath
 
-- (instancetype)initWithPath:(NSString *)path {
-    if (self = [super init]) {
-        _path = path;
-    }
-    return self;
-}
-
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[self class]]) {
         BroutePath *bPath = (BroutePath *)object;
-        if ([self.path isEqual:[bPath path]]) {
+        if ([self.routeTamplate.path isEqual:bPath.routeTamplate.path]) {
             return YES;
         }
         if ([self.pathRegex.pattern isEqual:bPath.pathRegex.pattern]) {
@@ -69,7 +51,6 @@
 @interface BrouteScheme ()
 @property (nonatomic, strong) NSMutableDictionary <NSString *, BroutePath *> *pathsMap;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BroutePath *> *> *regexRoutesMap;
-@property (nonatomic, strong) NSMutableArray <NSString *> *routeRegexes;
 @end
 @implementation BrouteScheme
 
@@ -80,26 +61,7 @@
     return self;
 }
 
-- (NSMutableDictionary<NSString *,BroutePath *> *)pathsMap {
-    if (_pathsMap == nil) {
-        _pathsMap = [NSMutableDictionary dictionary];
-    }
-    return _pathsMap;
-}
 
-- (NSMutableArray<NSString *> *)routeRegexes {
-    if (_routeRegexes == nil) {
-        _routeRegexes = [NSMutableArray array];
-    }
-    return _routeRegexes;
-}
-
-- (NSMutableDictionary<NSString *,NSMutableSet<BroutePath *> *> *)regexRoutesMap {
-    if (_regexRoutesMap == nil) {
-        _regexRoutesMap = [NSMutableDictionary dictionary];
-    }
-    return _regexRoutesMap;
-}
 
 @end
 
@@ -109,33 +71,13 @@
 @interface BrouterCore ()
 @property (nonatomic, copy) NSString *baseScheme;
 @property (nonatomic, copy) NSString *baseHost;
-@property (nonatomic, strong) NSMutableDictionary <NSString *, BrouteScheme *> *schemesMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, BroutePath *> *pathsMap;
+@property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableSet<BroutePath *> *> *regexRoutesMap;
 @end
 @implementation BrouterCore
 
 static BrouterCore *instance = nil;
 
-- (void)setBaseUrl:(NSString *)baseUrl {
-    if (baseUrl == nil) {return;}
-    _baseUrl = baseUrl;
-    NSURL *url = [NSURL URLWithString:baseUrl];
-    if (url && url.scheme) {
-        _baseScheme = [NSString stringWithFormat:@"%@://",url.scheme];
-    }
-}
-
-- (instancetype)initWithScheme:(NSString *)scheme
-                          host:(NSString *)host
-                          path:(NSString *)path
-                       handler:(BrouterHandler)handler {
-    if (self = [super init]) {
-        BrouteScheme *bScheme = [self.schemesMap objectForKey:scheme];
-        if (bScheme == nil) {
-            bScheme = [[BrouteScheme alloc]initWithScheme:scheme];
-        }
-    }
-    return self;
-}
 
 - (NSMutableArray<BrouteScheme *> *)schemes {
     if (_schemes == nil) {
@@ -144,11 +86,19 @@ static BrouterCore *instance = nil;
     return _schemes;
 }
 
-- (NSMutableDictionary<NSString *,BrouteScheme *> *)schemesMap {
-    if (_schemesMap == nil) {
-        _schemesMap = [NSMutableDictionary dictionaryWithCapacity:1];
+- (NSMutableDictionary<NSString *,BroutePath *> *)pathsMap {
+    if (_pathsMap == nil) {
+        _pathsMap = [NSMutableDictionary dictionary];
     }
-    return _schemesMap;
+    return _pathsMap;
+}
+
+
+- (NSMutableDictionary<NSString *,NSMutableSet<BroutePath *> *> *)regexRoutesMap {
+    if (_regexRoutesMap == nil) {
+        _regexRoutesMap = [NSMutableDictionary dictionary];
+    }
+    return _regexRoutesMap;
 }
 
 
@@ -166,12 +116,7 @@ static BrouterCore *instance = nil;
     
     
     //trying find registered scheme from map
-    NSString *schemeStr = tamplate.scheme;
-    BrouteScheme *bScheme = [self.schemesMap objectForKey:schemeStr];
-    if (bScheme == nil) {
-        bScheme = [[BrouteScheme alloc]init];
-        [self.schemesMap setValue:bScheme forKey:schemeStr];
-    }
+
 
     BroutePath *bPath = nil;
     if (tamplate.paramRegexs.count) { // with params
@@ -184,14 +129,14 @@ static BrouterCore *instance = nil;
                 regexRouteKey = [regexRouteKey substringToIndex:regexRouteKey.length-1];
             }
         }
-        NSMutableSet<BroutePath *> *routeRegexes = [bScheme.regexRoutesMap objectForKey:regexRouteKey];
+        NSMutableSet<BroutePath *> *routeRegexes = [self.regexRoutesMap objectForKey:regexRouteKey];
         bPath = [BroutePath new];
         bPath.pathRegex = compiledRegex;
         bPath.handler = handler;
-        bPath.paramRegexes = tamplate.paramRegexs;
+        bPath.routeTamplate = tamplate;
         if (routeRegexes == nil) {
             routeRegexes = [NSMutableSet set];
-            [bScheme.regexRoutesMap setObject:routeRegexes forKey:regexRouteKey];
+            [self.regexRoutesMap setObject:routeRegexes forKey:regexRouteKey];
         }
         [routeRegexes addObject:bPath];
     } else { // without params
@@ -200,10 +145,10 @@ static BrouterCore *instance = nil;
             routeKey = [routeKey substringToIndex:routeKey.length-1];
         }
         
-        bPath = [bScheme.pathsMap objectForKey:routeKey];
+        bPath = [self.pathsMap objectForKey:routeKey];
         if (bPath == nil) {
             bPath = [BroutePath new];
-            [bScheme.pathsMap setValue:bPath forKey:routeKey];
+            [self.pathsMap setValue:bPath forKey:routeKey];
         }
         bPath.handler = handler;
         
@@ -395,7 +340,7 @@ static BrouterCore *instance = nil;
             NSRange capRange = [match rangeAtIndex:i];
             NSString *capStr = [urlStr substringWithRange:capRange];
             if (i > 0) {
-                BrouteParamRegex *pRegex = [bRoute.paramRegexes safeObjectAtIndex:i-1];
+                BrouteParamRegex *pRegex = [bRoute.routeTamplate.paramRegexs safeObjectAtIndex:i-1];
                 if (pRegex != nil) {
                     [params setObject:capStr forKey:pRegex.name];
                 }
@@ -439,18 +384,14 @@ static BrouterCore *instance = nil;
             routeStr = [NSString stringWithFormat:@"/%@",urlStr];
         }
     }
-    BrouteScheme *bScheme = [self.schemesMap objectForKey:schemeStr];
-    if (bScheme == nil) {
-        NSLog(@"unregistered scheme.");
-        return NO;
-    }
-    BroutePath *path = [bScheme.pathsMap objectForKey:routeStr];
+    
+    BroutePath *path = [self.pathsMap objectForKey:routeStr];
     if (path == nil) {
         // try from regex map
         
         NSString *routeKey = routeStr.stringByDeletingLastPathComponent;
         while (routeKey.length) {
-            NSMutableSet<BroutePath *> *routeRegexSet = [bScheme.regexRoutesMap objectForKey:routeKey];
+            NSMutableSet<BroutePath *> *routeRegexSet = [self.regexRoutesMap objectForKey:routeKey];
             if (routeRegexSet.count) {
                 for (BroutePath *regexPath in routeRegexSet) {
                     NSDictionary *params = [self matchRoute:regexPath withUrlStr:routeStr ];

@@ -9,17 +9,34 @@
 #import <Foundation/Foundation.h>
 
 
+/*
+ * routerCore -> NSMutableArray<BrouteScheme *> ->
+ *
+ */
+
 #define BROUTER_DEFAULT_SCHEME        (@"broute://")
 #define BROUTER_DEFAULT_HOST        (@"default.com")
 
 typedef void (^BrouterHandler)(NSDictionary *params);
 
+@interface BrouteParamRegex : NSObject
+@property (nonatomic, assign) NSInteger start;
+@property (nonatomic, assign) NSInteger end;
+@property (nonatomic, copy) NSString *occurrenceStr; //Occurrence string
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *regex;
+@end
+
+@interface BrouterRouteTamplate : NSObject
+@property (nonatomic, copy) NSString *scheme;
+@property (nonatomic, copy) NSString *path;
+@property (nonatomic, copy) NSArray<BrouteParamRegex *> *paramRegexs;
+@end
+
 
 @interface BroutePath : NSObject
-@property (nonatomic, copy) NSString *scheme;
-@property (nonatomic, copy) NSString *host;
-@property (nonatomic, copy) NSString *path; // path string
 @property (nonatomic, strong) NSRegularExpression *pathRegex; // path regex expression
+@property (nonatomic, strong) BrouterRouteTamplate *routeTamplate;
 @property (nonatomic, copy) BrouterHandler handler;
 @end
 
