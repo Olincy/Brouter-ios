@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultRouter;
 
 
-+ (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler;
++ (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;
 + (BOOL)route:(NSString *)routeTpl toVC:(NSString *)vcName;
 + (BOOL)canOpenUrl:(NSString *)urlStr;
 + (BOOL)openUrl:urlStr;

@@ -90,9 +90,23 @@
     }];
     path = [brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:^(NSDictionary *params) {
     }];
+    path = [brouter route:@"abc://{foo:[0-9]+}" toHandler:^(NSDictionary *params) {
+    }];
+    path = [brouter route:@"abc://foo{var}" toHandler:^(NSDictionary *params) {
+    }];
+    path = [brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:^(NSDictionary *params) {
+    }];
     
-    
-    
+    BrouterResponse *res = [brouter parse:@"broute://foo/123"];
+    NSLog(@"%@",res.params);
+    res = [brouter parse:@"abc://foohaha"];
+    NSLog(@"%@",res.params);
+    res = [brouter parse:@"abc://996"];
+    NSLog(@"%@",res.params);
+    res = [brouter parse:@"abc://996/bar778"];
+    NSLog(@"%@",res.params);
+    res = [brouter parse:@"/foo/123"];
+    NSLog(@"%@",res.params);
 }
 
 #pragma mark - TableView Datasource & Delegate

@@ -10,6 +10,10 @@
 
 
 @interface NSArray (Brouter)
-- (id)safeObjectAtIndex:(NSUInteger)index;
+- (id)br_objectAtIndex:(NSUInteger)index;
 @end
 
+@interface NSString (Brouter)
+- (NSString *)br_stringByDeletingLastPathComponent;
+- (BOOL)br_paramNameValid;
+@end

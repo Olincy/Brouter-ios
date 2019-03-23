@@ -28,7 +28,7 @@ static Brouter *_instance;
 }
 
 
-+ (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandler)handler {
++ (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler {
     return NO;
 }
 
