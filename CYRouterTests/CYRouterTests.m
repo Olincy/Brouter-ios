@@ -30,9 +30,7 @@
 - (void)testRouterCoreRegisterFailedCases {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    BrouterHandlerBlk testHandler = ^(NSDictionary *params){
-        NSLog(@"%@",params);
-    };
+    NSObject *obj = [NSObject new];
     BrouterRoutePath *path = [self.brouter route:nil toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"param should not be nil");
@@ -80,33 +78,31 @@
     }];
     XCTAssert(path==nil,@"missing param name");
     
-    path = [self.brouter route:@"broute://foo?p=20" toHandler:testHandler];
+    path = [self.brouter route:@"broute://foo?p=20" toHandler:obj];
     XCTAssert(path==nil,@"no queries in route tamplate");
     
 }
 
 - (void)testRouterCoreParse {
     // valid
-    BrouterHandlerBlk testHandler = ^(NSDictionary *params){
-        NSLog(@"%@",params);
-    };
+    NSObject *obj = [NSObject new];
     
     /**/
-    BrouterRoutePath *path = [self.brouter route:@"broute://foo" toHandler:testHandler];
+    BrouterRoutePath *path = [self.brouter route:@"broute://foo" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     BrouterResponse *res = [self.brouter parse:@"broute://foo"];
     XCTAssert(res.error==nil,@"parse url failed.");
     
-    path = [self.brouter route:@"broute://{foo}" toHandler:testHandler];
+    path = [self.brouter route:@"broute://{foo}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     
     /**/
-    path = [self.brouter route:@"broute://foo/{id}" toHandler:testHandler];
+    path = [self.brouter route:@"broute://foo/{id}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:testHandler];
+    path = [self.brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     res = [self.brouter parse:@"/foo/123"];
@@ -118,13 +114,13 @@
     XCTAssert([res.params[@"bar"] isEqualToString:@"123"],@"parse url failed.");
     
     
-    path = [self.brouter route:@"abc://{foo:[0-9]+}" toHandler:testHandler];
+    path = [self.brouter route:@"abc://{foo:[0-9]+}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"abc://foo{var}" toHandler:testHandler];
+    path = [self.brouter route:@"abc://foo{var}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:testHandler];
+    path = [self.brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     

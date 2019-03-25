@@ -8,38 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
-
-
-typedef void (^BrouterHandlerBlk)(NSDictionary *params);
-
-
 @interface BrouterRouteTamplate : NSObject
 @property (nonatomic, copy) NSString *scheme;
 @property (nonatomic, copy) NSString *routeKey;
 @end
 
-@interface BrouterHandler : NSObject
-@property (nonatomic, copy) BrouterHandlerBlk handlerBlk;
-@end
-
 @interface BrouterRoutePath : NSObject
 @property (nonatomic, strong) NSRegularExpression *pathRegex; // path regex expression
-@property (nonatomic, strong) BrouterRouteTamplate *routeTamplate;
-@property (nonatomic, strong) BrouterHandler *handler;
+@property (nonatomic, copy) NSString *routeTamplate;
+@property (nonatomic, strong) id routeHandler;
 @end
 
 
 @interface BrouterResponse : NSObject
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, copy) NSDictionary *params;
-@property (nonatomic, strong) BrouterHandler *handler;
+@property (nonatomic, strong) id routeHandler;
 @end
 
 
 @interface BrouterCore : NSObject
 
 
-- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;
+- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(id)handler;
 - (BrouterResponse *)parse:(NSString *)urlStr;
 
 @end

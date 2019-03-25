@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^BrouterHandlerBlk)(NSDictionary *params);
+
 @interface Brouter : NSObject
 @property (nonatomic, strong) BrouterCore *routerCore;
 + (instancetype)defaultRouter;

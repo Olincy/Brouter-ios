@@ -30,12 +30,9 @@
 @implementation BrouterRouteTamplate
 @end
 
-@implementation BrouterHandler
-@end
-
 #pragma mark - BroutePath
 @interface BrouterRoutePath ()
-
+@property (nonatomic, strong) BrouterRouteTamplate *compiledTamplate;
 @end
 
 @implementation BrouterRoutePath
@@ -59,9 +56,6 @@
 
 #pragma mark - BrouterCore
 @interface BrouterCore ()
-@property (nonatomic, copy) NSString *baseScheme;
-@property (nonatomic, copy) NSString *baseHost;
-@property (nonatomic, strong) NSMapTable *weakRoutesMap;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, BrouterRoutePath *> *normalRoutesMap;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, NSMutableOrderedSet<BrouterRoutePath *> *> *regexRoutesMap;
 @end
@@ -207,7 +201,7 @@ static BrouterCore *instance = nil;
             NSRange capRange = [match rangeAtIndex:i];
             NSString *capStr = [urlStr substringWithRange:capRange];
             if (i > 0) {
-                BrouteParamRegex *pRegex = [bRoute.routeTamplate.paramRegexs br_objectAtIndex:i-1];
+                BrouteParamRegex *pRegex = [bRoute.compiledTamplate.paramRegexs br_objectAtIndex:i-1];
                 if (pRegex != nil) {
                     [params setObject:capStr forKey:pRegex.name];
                 }
@@ -249,8 +243,8 @@ static BrouterCore *instance = nil;
 }
 
 
-- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handlerBlk {
-    if (handlerBlk == nil || routeTpl.length == 0) {
+- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(id)handler {
+    if (handler == nil || routeTpl.length == 0) {
         NSLog(@"trying register an empty path or handler");
         return nil;
     }
@@ -270,10 +264,8 @@ static BrouterCore *instance = nil;
         NSMutableOrderedSet<BrouterRoutePath *> *routeRegexes = [self.regexRoutesMap objectForKey:tamplate.routeKey];
         bPath = [BrouterRoutePath new];
         bPath.pathRegex = compiledRegex;
-        BrouterHandler *handlerObj = [BrouterHandler new];
-        handlerObj.handlerBlk = handlerBlk;
-        bPath.handler = handlerObj;
-        bPath.routeTamplate = tamplate;
+        bPath.routeHandler = handler;
+        bPath.compiledTamplate = tamplate;
         if (routeRegexes == nil) {
             routeRegexes = [NSMutableOrderedSet orderedSet];
             [self.regexRoutesMap setObject:routeRegexes forKey:tamplate.routeKey];
@@ -290,12 +282,10 @@ static BrouterCore *instance = nil;
             bPath = [BrouterRoutePath new];
             [self.normalRoutesMap setValue:bPath forKey:routeKey];
         }
-        BrouterHandler *handlerObj = [BrouterHandler new];
-        handlerObj.handlerBlk = handlerBlk;
-        bPath.handler = handlerObj;
+        
+        
+        bPath.routeHandler = handler;
     }
-    
-    [self.weakRoutesMap setObject:bPath forKey:routeTpl];
     
     return bPath;
 }
@@ -336,7 +326,7 @@ static BrouterCore *instance = nil;
                         // matched
                         [params addEntriesFromDictionary:urlParams];
                         bResponse.params = params;
-                        bResponse.handler = regexPath.handler;
+                        bResponse.routeHandler = regexPath.routeHandler;
                         return bResponse;
                     }
                 }
@@ -348,10 +338,10 @@ static BrouterCore *instance = nil;
         }
         
     } else {
-        bResponse.handler = path.handler;
+        bResponse.routeHandler = path.routeHandler;
     }
     
-    if (bResponse.handler == nil) { // not matched
+    if (bResponse.routeHandler == nil) { // not matched
         bResponse.error = [NSError br_error:@"no matched url string."];
     }
     

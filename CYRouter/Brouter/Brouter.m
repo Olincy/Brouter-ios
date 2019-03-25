@@ -8,6 +8,13 @@
 
 #import "Brouter.h"
 
+@interface BrouterHandler : NSObject
+@property (nonatomic, copy) BrouterHandlerBlk handlerBlk;
+@end
+
+@implementation BrouterHandler
+@end
+
 @implementation Brouter
 
 - (BrouterCore *)routerCore {
@@ -29,7 +36,11 @@ static Brouter *_instance;
 
 
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler {
-    return NO;
+    BrouterHandler *handlerObj = [BrouterHandler new];
+    handlerObj.handlerBlk = handler;
+    BrouterRoutePath *path = [[[self defaultRouter] routerCore] route:routeTpl toHandler:handlerObj];
+    
+    return path != nil;
 }
 
 
