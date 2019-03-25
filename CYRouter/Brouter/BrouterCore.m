@@ -84,11 +84,168 @@ static BrouterCore *instance = nil;
     return _regexRoutesMap;
 }
 
-- (NSMapTable *)weakRoutesMap {
-    if (_weakRoutesMap == nil) {
-        _weakRoutesMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsWeakMemory];
+
+
+
+- (BrouterRouteTamplate *)parseRouteTamplate:(NSString *)routeTpl {
+    //scheme ":" [ "//" ] [ username ":" password "@" ] host [ ":" port ] [ "/" ] [ path ] [ "?" query ]
+    
+    NSInteger braceStart= 0;
+    NSInteger braceTag = 0;
+    NSInteger lastSlashIdx = -1;
+    NSMutableArray *idxs = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray<BrouteParamRegex *> *paramRegexs = [NSMutableArray arrayWithCapacity:1];
+    NSMutableSet *nameSet = [NSMutableSet set];
+    BrouterRouteTamplate *tamplate = [BrouterRouteTamplate new];
+    NSString *routeKey = nil;
+    
+    NSString *defaultParamRegex = @"[^/]+"; // match any characters except '/'
+    for (NSInteger i=0; i < routeTpl.length; i++) {
+        unichar ch = [routeTpl characterAtIndex:i];
+        NSLog(@"%hu",ch);
+        
+        switch (ch) {
+            case 0x007b: // '{'
+                if (tamplate.scheme == nil) {
+                    NSLog(@"invalid route tamplate: %@",routeTpl);
+                    return nil;
+                }
+                braceTag++;
+                if (braceTag==1) {
+                    braceStart = i;
+                } else {
+                    NSLog(@"unbalanced braces in %@",routeTpl);
+                    return nil;
+                }
+                if (routeKey.length == 0) {
+                    routeKey = @"/";
+                }
+                break;
+            case 0x007d: // '}'
+                braceTag--;
+                if (braceTag == 0) {
+                    [idxs addObjectsFromArray:@[@(braceStart),@(i)]];
+                    NSString *paramTpl = [routeTpl substringWithRange:NSMakeRange(braceStart+1, i-braceStart-1)];
+                    
+                    NSArray<NSString *> *pComps = [paramTpl componentsSeparatedByString:@":"];
+                    NSString *name = pComps[0];
+                    NSString *regex = defaultParamRegex;
+                    if (pComps.count==2) {
+                        regex = pComps[1];
+                    }
+                    if (name.length==0 || regex.length==0 || ![name br_paramNameValid]) {
+                        NSLog(@"missing param name or pattern in %@",routeTpl);
+                        return nil;
+                    }
+                    if ([nameSet containsObject:name]) {
+                        NSLog(@"duplicate param name in %@",routeTpl);
+                        return nil;
+                    }
+                    [nameSet addObject:name];
+                    BrouteParamRegex *bParamReg = [BrouteParamRegex new];
+                    bParamReg.start = braceStart;
+                    bParamReg.end = i;
+                    bParamReg.name = name;
+                    bParamReg.regex = regex;
+                    [paramRegexs addObject:bParamReg];
+                } else {
+                    NSLog(@"unbalanced braces in %@",routeTpl);
+                    return nil;
+                }
+                break;
+            case 0x003A: // ':'
+                if (tamplate.scheme.length==0) {
+                    tamplate.scheme = [routeTpl br_substringToIndex:i];
+                }
+                if (tamplate.scheme.length==0) {
+                    NSLog(@"missing scheme route tamplate: %@",routeTpl);
+                    return nil;
+                }
+                break;
+            case 0x002f: // '/'
+                lastSlashIdx = i;
+                if (tamplate.scheme.length==0) {
+                    NSLog(@"missing scheme route tamplate: %@",routeTpl);
+                    return nil;
+                }
+                if (braceTag != 0) {
+                    NSLog(@"invalid route tamplate: %@",routeTpl);
+                    return nil; 
+                }
+                if (braceStart == 0) {
+                    routeKey = [routeTpl substringToIndex:i];
+                }
+                break;
+                
+            case 0x003f: // '?'
+                NSLog(@"trying with queries in route tamplate: %@",routeTpl);
+                return nil;
+                
+            default:
+                break;
+        }
     }
-    return _weakRoutesMap;
+    if (braceTag != 0) {
+        NSLog(@"unbalanced braces in %@",routeTpl);
+        return nil;
+    }
+    tamplate.paramRegexs = paramRegexs;
+    tamplate.routeKey = routeKey?:routeTpl;
+    
+    return  tamplate;
+}
+
+
+- (NSDictionary *)matchRoute:(BrouterRoutePath *)bRoute withUrlStr:(NSString *)urlStr {
+    if (bRoute.pathRegex == nil) {return nil;}
+    
+    NSArray* matches = [bRoute.pathRegex matchesInString:urlStr options:0 range: NSMakeRange(0, urlStr.length)];
+    if (matches.count) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        NSTextCheckingResult* match = matches.firstObject;
+        for (NSInteger i=0; i<match.numberOfRanges; i++) {
+            NSRange capRange = [match rangeAtIndex:i];
+            NSString *capStr = [urlStr substringWithRange:capRange];
+            if (i > 0) {
+                BrouteParamRegex *pRegex = [bRoute.routeTamplate.paramRegexs br_objectAtIndex:i-1];
+                if (pRegex != nil) {
+                    [params setObject:capStr forKey:pRegex.name];
+                }
+            }
+        }
+        return params;
+    }
+    
+    return nil;
+}
+
+
+
+- (NSRegularExpression *)compileRegex:(NSString *)routeTpl params:(NSArray<BrouteParamRegex *> *)params {
+    NSMutableString *regexStr = [NSMutableString stringWithString:routeTpl];
+    
+    // remove slash at begin&end
+    [regexStr replaceOccurrencesOfString:@"/" withString:@"" options:NSBackwardsSearch range:NSMakeRange(0, 1)];
+    [regexStr replaceOccurrencesOfString:@"/" withString:@"" options:NSBackwardsSearch range:NSMakeRange(regexStr.length-1, 1)];
+    for (NSInteger i = 0; i < params.count; i++) {
+        BrouteParamRegex *bParam = params[i];
+        NSString *occString = [routeTpl substringWithRange:NSMakeRange(bParam.start, bParam.end-bParam.start+1)];
+        [regexStr replaceOccurrencesOfString:occString withString:[NSString stringWithFormat:@"(%@)",bParam.regex] options:NSBackwardsSearch range:NSMakeRange(0, regexStr.length)];
+    }
+    NSError *error;
+    NSRegularExpression *regexObj = [NSRegularExpression
+                                     regularExpressionWithPattern:[NSString stringWithFormat:@"^[/]?%@[/]?$",regexStr]
+                                     options:NSRegularExpressionCaseInsensitive|NSRegularExpressionAnchorsMatchLines
+                                     error:&error];
+    return regexObj;
+}
+
+- (BOOL)route:(NSString *)routeTpl redirectPath:(BrouterRoutePath *)route {
+    return NO;
+}
+
+- (BOOL)route:(NSString *)routeTpl redirectRouteTpl:(NSString *)redirectTpl {
+    return NO;
 }
 
 
@@ -143,163 +300,45 @@ static BrouterCore *instance = nil;
     return bPath;
 }
 
-- (BrouterRouteTamplate *)parseRouteTamplate:(NSString *)routeTpl {
-    //scheme ":" [ "//" ] [ username ":" password "@" ] host [ ":" port ] [ "/" ] [ path ] [ "?" query ]
-    
-    NSInteger braceStart= 0;
-    NSInteger braceTag = 0;
-    NSInteger lastSlashIdx = -1;
-    NSMutableArray *idxs = [NSMutableArray arrayWithCapacity:2];
-    NSMutableArray<BrouteParamRegex *> *paramRegexs = [NSMutableArray arrayWithCapacity:1];
-    NSMutableSet *nameSet = [NSMutableSet set];
-    BrouterRouteTamplate *tamplate = [BrouterRouteTamplate new];
-    NSString *routeKey = nil;
-    
-    NSString *defaultParamRegex = @"[^/]+"; // match any characters except '/'
-    for (NSInteger i=0; i < routeTpl.length; i++) {
-        unichar ch = [routeTpl characterAtIndex:i];
-        NSLog(@"%hu",ch);
-        
-        switch (ch) {
-            case 0x007b: // '{'
-                if (tamplate.scheme == nil) {
-                    NSLog(@"invalid route tamplate: %@",routeTpl);
-                    return nil;
-                }
-                braceTag++;
-                if (braceTag==1) {
-                    braceStart = i;
-                } else {
-                    NSLog(@"unbalanced braces in %@",routeTpl);
-                    return nil;
-                }
-                if (routeKey.length == 0) {
-                    routeKey = @"/";
-                }
-                break;
-            case 0x007d: // '}'
-                if (tamplate.scheme == nil) {
-                    NSLog(@"invalid route tamplate: %@",routeTpl);
-                    return nil;
-                }
-                braceTag--;
-                if (braceTag == 0) {
-                    [idxs addObjectsFromArray:@[@(braceStart),@(i)]];
-                    NSString *paramTpl = [routeTpl substringWithRange:NSMakeRange(braceStart+1, i-braceStart-1)];
-                    
-                    NSArray<NSString *> *pComps = [paramTpl componentsSeparatedByString:@":"];
-                    NSString *name = pComps[0];
-                    NSString *regex = defaultParamRegex;
-                    if (pComps.count==2) {
-                        regex = pComps[1];
-                    }
-                    if (name.length==0 || regex.length==0 || ![name br_paramNameValid]) {
-                        NSLog(@"missing param name or pattern in %@",routeTpl);
-                        return nil;
-                    }
-                    if ([nameSet containsObject:name]) {
-                        NSLog(@"duplicate param name in %@",routeTpl);
-                        return nil;
-                    }
-                    [nameSet addObject:name];
-                    BrouteParamRegex *bParamReg = [BrouteParamRegex new];
-                    bParamReg.start = braceStart;
-                    bParamReg.end = i;
-                    bParamReg.name = name;
-                    bParamReg.regex = regex;
-                    [paramRegexs addObject:bParamReg];
-                } else {
-                    NSLog(@"unbalanced braces in %@",routeTpl);
-                    return nil;
-                }
-                break;
-            case 0x003A: // ':'
-                if (i == 0) {
-                    NSLog(@"missing scheme route tamplate: %@",routeTpl);
-                    return nil;
-                }
-                if (i>0 && lastSlashIdx<0 && tamplate.scheme.length==0) {
-                    tamplate.scheme = [routeTpl substringToIndex:NSMaxRange([routeTpl rangeOfComposedCharacterSequenceAtIndex:i])];
-                }
-                break;
-            case 0x002f: // '/'
-                lastSlashIdx = i;
-                if (tamplate.scheme.length==0) {
-                    NSLog(@"missing scheme route tamplate: %@",routeTpl);
-                    return nil;
-                }
-                if (braceTag != 0) {
-                    return nil; 
-                }
-                if (braceStart == 0) {
-                    routeKey = [routeTpl substringToIndex:i];
-                }
-                break;
-                
-            case 0x003f: // '?'
-                NSLog(@"no queries in route tamplate: %@",routeTpl);
-                return nil;
-                
-            default:
-                break;
-        }
-    }
-    if (braceTag != 0) {
-        NSLog(@"unbalanced braces in %@",routeTpl);
-        return nil;
-    }
-    tamplate.paramRegexs = paramRegexs;
-    tamplate.routeKey = routeKey?:routeTpl;
-    
-    return  tamplate;
-}
-
-
-- (NSDictionary *)matchRoute:(BrouterRoutePath *)bRoute withUrlStr:(NSString *)urlStr {
-    if (bRoute.pathRegex == nil) {return nil;}
-    
-    NSArray* matches = [bRoute.pathRegex matchesInString:urlStr options:0 range: NSMakeRange(0, urlStr.length)];
-    if (matches.count) {
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        NSTextCheckingResult* match = matches.firstObject;
-        for (NSInteger i=0; i<match.numberOfRanges; i++) {
-            NSRange capRange = [match rangeAtIndex:i];
-            NSString *capStr = [urlStr substringWithRange:capRange];
-            if (i > 0) {
-                BrouteParamRegex *pRegex = [bRoute.routeTamplate.paramRegexs br_objectAtIndex:i-1];
-                if (pRegex != nil) {
-                    [params setObject:capStr forKey:pRegex.name];
-                }
-            }
-        }
-        return params;
-    }
-    
-    return nil;
-}
-
-
 - (BrouterResponse *)parse:(NSString *)urlStr {
+    BrouterResponse *bResponse = [BrouterResponse new];
+    if (urlStr.length == 0) {
+        bResponse.error = [NSError br_error:@"empty url string."];
+        return bResponse;
+    }
     
-    BrouterResponse *bResponse = nil;
-    BrouterRoutePath *path = [self.normalRoutesMap objectForKey:urlStr];
-    NSDictionary *params = nil;
+    
+    // get query string
+    NSURLComponents *urlComp = [NSURLComponents componentsWithString:urlStr];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (urlComp == nil) {
+        bResponse.error = [NSError br_error:@"invalid url string."];
+        return bResponse;
+    }
+    for (NSURLQueryItem *item in urlComp.queryItems) {
+        [params setValue:item.value forKey:item.name];
+    }
+    
+    urlComp.query = nil;
+    NSString *absoluteUrlStr = urlComp.string;
+    BrouterRoutePath *path = [self.normalRoutesMap objectForKey:absoluteUrlStr];
+    
     if (path == nil) {
-        // try from regex map
-        NSString *routeKey = [urlStr br_stringByDeletingLastPathComponent];
+        // match from regex map
+        NSString *routeKey = [absoluteUrlStr br_stringByDeletingLastPathComponent];
         while (routeKey.length) {
             NSMutableOrderedSet<BrouterRoutePath *> *routeRegexSet = [self.regexRoutesMap objectForKey:routeKey];
             if (routeRegexSet.count) {
                 for (NSInteger i = routeRegexSet.count-1; i>=0; i--) {
                     BrouterRoutePath *regexPath = [routeRegexSet objectAtIndex:i];
-                    params = [self matchRoute:regexPath withUrlStr:urlStr ];
-                    if (params.count) {
-                        bResponse = [BrouterResponse new];
+                    NSDictionary *urlParams = [self matchRoute:regexPath withUrlStr:absoluteUrlStr];
+                    if (urlParams.count) {
+                        // matched
+                        [params addEntriesFromDictionary:urlParams];
                         bResponse.params = params;
                         bResponse.handler = regexPath.handler;
                         return bResponse;
                     }
-                    
                 }
             }
             if ([routeKey isEqualToString:@"/"]) {
@@ -307,38 +346,18 @@ static BrouterCore *instance = nil;
             }
             routeKey = [routeKey br_stringByDeletingLastPathComponent];
         }
+        
+    } else {
+        bResponse.handler = path.handler;
+    }
+    
+    if (bResponse.handler == nil) { // not matched
+        bResponse.error = [NSError br_error:@"no matched url string."];
     }
     
     return bResponse;
 }
 
-
-- (NSRegularExpression *)compileRegex:(NSString *)routeTpl params:(NSArray<BrouteParamRegex *> *)params {
-    NSMutableString *regexStr = [NSMutableString stringWithString:routeTpl];
-    
-    // remove slash at begin&end
-    [regexStr replaceOccurrencesOfString:@"/" withString:@"" options:NSBackwardsSearch range:NSMakeRange(0, 1)];
-    [regexStr replaceOccurrencesOfString:@"/" withString:@"" options:NSBackwardsSearch range:NSMakeRange(regexStr.length-1, 1)];
-    for (NSInteger i = 0; i < params.count; i++) {
-        BrouteParamRegex *bParam = params[i];
-        NSString *occString = [routeTpl substringWithRange:NSMakeRange(bParam.start, bParam.end-bParam.start+1)];
-        [regexStr replaceOccurrencesOfString:occString withString:[NSString stringWithFormat:@"(%@)",bParam.regex] options:NSBackwardsSearch range:NSMakeRange(0, regexStr.length)];
-    }
-    NSError *error;
-    NSRegularExpression *regexObj = [NSRegularExpression
-                                     regularExpressionWithPattern:[NSString stringWithFormat:@"^[/]?%@[/]?$",regexStr]
-                                     options:NSRegularExpressionCaseInsensitive|NSRegularExpressionAnchorsMatchLines
-                                     error:&error];
-    return regexObj;
-}
-
-- (BOOL)route:(NSString *)routeTpl redirectPath:(BrouterRoutePath *)route {
-    return NO;
-}
-
-- (BOOL)route:(NSString *)routeTpl redirectRouteTpl:(NSString *)redirectTpl {
-    return NO;
-}
 
 @end
 

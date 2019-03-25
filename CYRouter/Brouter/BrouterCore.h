@@ -29,16 +29,14 @@ typedef void (^BrouterHandlerBlk)(NSDictionary *params);
 @end
 
 
-//
 @interface BrouterResponse : NSObject
+@property (nonatomic, strong) NSError *error;
 @property (nonatomic, copy) NSDictionary *params;
 @property (nonatomic, strong) BrouterHandler *handler;
 @end
 
 
 @interface BrouterCore : NSObject
-
-@property (nonatomic, assign) BOOL strictSlash; // "/"是否严格
 
 
 - (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;

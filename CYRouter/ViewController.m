@@ -97,7 +97,7 @@
     path = [brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:^(NSDictionary *params) {
     }];
     
-    BrouterResponse *res = [brouter parse:@"broute://foo/123"];
+    BrouterResponse *res = [brouter parse:@"broute://foo/123/?a=a231&b=ccc"];
     NSLog(@"%@",res.params);
     res = [brouter parse:@"abc://foohaha"];
     NSLog(@"%@",res.params);
