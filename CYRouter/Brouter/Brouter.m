@@ -44,17 +44,21 @@ static Brouter *_instance;
 }
 
 
-
-+ (BOOL)route:(NSString *)routeTpl toVC:(NSString *)vcName {
-    return NO;
-}
-
 + (BOOL)canOpenUrl:(NSString *)urlStr {
-    return NO;
+    BrouterResponse *response = [[[self defaultRouter] routerCore] parse: urlStr];
+    return response.error != nil;
 }
 
 + (BOOL)openUrl:urlStr {
-    return NO;
+    BrouterResponse *response = [[[self defaultRouter] routerCore] parse: urlStr];
+    if (response.error) {
+        return NO;
+    }
+    BrouterHandler *handlerObj = response.routeHandler;
+    if ( handlerObj.handlerBlk ) {
+        handlerObj.handlerBlk(response.params);
+    }
+    return YES;
 }
 
 

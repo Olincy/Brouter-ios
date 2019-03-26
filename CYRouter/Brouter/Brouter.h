@@ -19,7 +19,6 @@ typedef void (^BrouterHandlerBlk)(NSDictionary *params);
 
 
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;
-+ (BOOL)route:(NSString *)routeTpl toVC:(NSString *)vcName;
 + (BOOL)canOpenUrl:(NSString *)urlStr;
 + (BOOL)openUrl:urlStr;
 @end

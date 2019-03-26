@@ -27,7 +27,7 @@
     [super tearDown];
 }
 
-- (void)testRouterCoreRegisterFailedCases {
+- (void)testRouterCoreRegister {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
     NSObject *obj = [NSObject new];
@@ -132,6 +132,18 @@
     XCTAssert(res.error==nil,@"parse url failed.");
     XCTAssert(res.params.count==1,@"parse url failed.");
     XCTAssert([res.params[@"var"] isEqualToString:@"bar"],@"parse url failed.");
+    
+}
+
+
+// 测试Router的注册
+- (void)testRouterRegister {
+    
+}
+
+
+// 测试Router的解析
+- (void)testRouterParse {
     
 }
 
