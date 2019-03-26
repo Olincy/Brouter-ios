@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "BrouterCore.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,8 +27,15 @@ typedef void (^BrouterHandlerBlk)(BrouterContext *context);
 @property (nonatomic, strong) BrouterCore *routerCore;
 + (instancetype)defaultRouter;
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;
++ (BOOL)route:(NSString *)routeTpl toViewController:(NSString *)vcName;
 + (BOOL)canOpenUrl:(NSString *)urlStr;
 + (BOOL)openUrl:urlStr;
 @end
 
 NS_ASSUME_NONNULL_END
+
+
+@interface UIViewController (Brouter)
+- (BOOL)pushUrl:(NSString *)urlStr;
+- (BOOL)presentUrl:(NSString *)urlStr;
+@end

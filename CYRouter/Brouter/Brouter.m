@@ -10,6 +10,7 @@
 
 @interface BrouterHandler : NSObject
 @property (nonatomic, copy) BrouterHandlerBlk handlerBlk;
+@property (nonatomic, copy) NSString *viewControllerName;
 @end
 
 @implementation BrouterHandler
@@ -46,6 +47,14 @@ static Brouter *_instance;
     return path != nil;
 }
 
++ (BOOL)route:(NSString *)routeTpl toViewController:(NSString *)vcName {
+    BrouterHandler *handlerObj = [BrouterHandler new];
+    handlerObj.viewControllerName = vcName;
+    BrouterRoutePath *path = [[[self defaultRouter] routerCore] mapRouteTamplate:routeTpl toHandler:handlerObj];
+    
+    return path != nil;
+}
+
 
 + (BOOL)canOpenUrl:(NSString *)urlStr {
     BrouterResponse *response = [[[self defaultRouter] routerCore] parseUrl: urlStr];
@@ -68,5 +77,45 @@ static Brouter *_instance;
     return YES;
 }
 
+
+
+@end
+
+
+@implementation UIViewController (Brouter)
+
+- (Class)viewControllerClassWithUrl:(NSString *)urlStr {
+    BrouterResponse *response = [[[Brouter defaultRouter] routerCore] parseUrl: urlStr];
+    if (response.error) {
+        return nil;
+    }
+    BrouterHandler *handlerObj = response.routeHandler;
+    Class vcClass = NSClassFromString(handlerObj.viewControllerName);
+    if (!vcClass || ![vcClass isSubclassOfClass:[UIViewController class]]) {
+        return nil;
+    }
+    return vcClass;
+}
+
+
+- (BOOL)pushUrl:(NSString *)urlStr {
+    Class vcClass = [self viewControllerClassWithUrl:urlStr];
+    if (!vcClass) {
+        return NO;
+    }
+    UIViewController *vc = [vcClass new];
+    [self.navigationController pushViewController:vc animated:YES];
+    return YES;
+}
+
+- (BOOL)presentUrl:(NSString *)urlStr {
+    Class vcClass = [self viewControllerClassWithUrl:urlStr];
+    if (!vcClass) {
+        return NO;
+    }
+    UIViewController *vc = [vcClass new];
+    [self presentViewController:vc animated:YES completion:nil];
+    return YES;
+}
 
 @end

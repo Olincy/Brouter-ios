@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		365D2B6B2242357D001B6F18 /* BrouterAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 365D2B6A2242357D001B6F18 /* BrouterAdditions.m */; };
 		365D2B7122427101001B6F18 /* Brouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 365D2B7022427101001B6F18 /* Brouter.m */; };
+		367B60F7224A27CD005CAE0A /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B60F6224A27CD005CAE0A /* PushedViewController.m */; };
 		BE12DB0520F3431100D9779B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB0420F3431100D9779B /* AppDelegate.m */; };
 		BE12DB0820F3431100D9779B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE12DB0720F3431100D9779B /* ViewController.m */; };
 		BE12DB0B20F3431100D9779B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE12DB0920F3431100D9779B /* Main.storyboard */; };
@@ -44,6 +45,8 @@
 		365D2B6A2242357D001B6F18 /* BrouterAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrouterAdditions.m; sourceTree = "<group>"; };
 		365D2B6F22427101001B6F18 /* Brouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Brouter.h; sourceTree = "<group>"; };
 		365D2B7022427101001B6F18 /* Brouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Brouter.m; sourceTree = "<group>"; };
+		367B60F5224A27CD005CAE0A /* PushedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
+		367B60F6224A27CD005CAE0A /* PushedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
 		BE12DB0020F3431100D9779B /* CYRouter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYRouter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE12DB0320F3431100D9779B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BE12DB0420F3431100D9779B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				BE12DB0420F3431100D9779B /* AppDelegate.m */,
 				BE12DB0620F3431100D9779B /* ViewController.h */,
 				BE12DB0720F3431100D9779B /* ViewController.m */,
+				367B60F5224A27CD005CAE0A /* PushedViewController.h */,
+				367B60F6224A27CD005CAE0A /* PushedViewController.m */,
 				BE5E62EB20F466A8005A9FCC /* Resources */,
 				BE12DB1120F3431200D9779B /* Info.plist */,
 				BE12DB1220F3431200D9779B /* main.m */,
@@ -145,12 +150,12 @@
 		BE12DB3820F349AD00D9779B /* Brouter */ = {
 			isa = PBXGroup;
 			children = (
+				365D2B6F22427101001B6F18 /* Brouter.h */,
+				365D2B7022427101001B6F18 /* Brouter.m */,
 				365D2B50223BC65E001B6F18 /* BrouterCore.h */,
 				BE12DB3A20F34AF200D9779B /* BrouterCore.m */,
 				365D2B692242357D001B6F18 /* BrouterAdditions.h */,
 				365D2B6A2242357D001B6F18 /* BrouterAdditions.m */,
-				365D2B6F22427101001B6F18 /* Brouter.h */,
-				365D2B7022427101001B6F18 /* Brouter.m */,
 			);
 			path = Brouter;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				365D2B7122427101001B6F18 /* Brouter.m in Sources */,
 				BE12DB3B20F34AF200D9779B /* BrouterCore.m in Sources */,
 				365D2B6B2242357D001B6F18 /* BrouterAdditions.m in Sources */,
+				367B60F7224A27CD005CAE0A /* PushedViewController.m in Sources */,
 				BE12DB0820F3431100D9779B /* ViewController.m in Sources */,
 				BE12DB1320F3431200D9779B /* main.m in Sources */,
 				BE12DB0520F3431100D9779B /* AppDelegate.m in Sources */,

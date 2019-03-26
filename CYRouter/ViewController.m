@@ -12,9 +12,9 @@
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray<NSDictionary *> *names2Vcs;
 @property (nonatomic, strong) NSArray *regUrls;
 @property (nonatomic, strong) NSArray *openUrls;
+@property (nonatomic, strong) NSArray *vcUrls;
 @end
 
 @implementation ViewController
@@ -60,27 +60,38 @@
                      @"abc://123/hello",
                      @"xxx://foo/bar",
                        ];
+    self.vcUrls = @[@"vc://to/pushed"];
     
     
     for (NSString *url in self.regUrls) {
         [Brouter route:url toHandler:handler];
     }
    
+    [Brouter route:@"vc://to/pushed" toViewController:@"PushedViewController"];
 }
 
 #pragma mark - TableView Datasource & Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.openUrls.count;
+    if (section == 0) {
+        return self.openUrls.count;
+    } else {
+        return self.vcUrls.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSString *title = self.openUrls[indexPath.row];
+    NSString *title = nil;
+    if (indexPath.section == 0) {
+        title = self.openUrls[indexPath.row];
+    } else {
+        title = self.vcUrls[indexPath.row];
+    }
     
     cell.textLabel.text = title;
     return cell;
@@ -92,12 +103,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    NSString *url = self.openUrls[indexPath.row];
-    if ([Brouter openUrl:url]) {
-        NSLog(@"open:%@",url);
+    if (indexPath.section == 0) {
+        NSString *url = self.openUrls[indexPath.row];
+        if ([Brouter openUrl:url]) {
+            NSLog(@"open:%@",url);
+        } else {
+            NSLog(@"cannot open:%@",url);
+        }
     } else {
-        NSLog(@"cannot open:%@",url);
+        NSString *url = self.vcUrls[indexPath.row];
+        if ([self pushUrl:url]) {
+            NSLog(@"open:%@",url);
+        } else {
+            NSLog(@"cannot open:%@",url);
+        }
     }
 }
 
