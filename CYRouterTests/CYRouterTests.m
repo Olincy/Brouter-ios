@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "BrouterCore.h"
+#import "Brouter.h"
 
 
 @interface CYRouterTests : XCTestCase
@@ -31,54 +32,54 @@
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
     NSObject *obj = [NSObject new];
-    BrouterRoutePath *path = [self.brouter route:nil toHandler:^(NSDictionary *params) {
+    BrouterRoutePath *path = [self.brouter mapRouteTamplate:nil toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"param should not be nil");
     
-    path = [self.brouter route:@"broute://foo" toHandler:nil];
+    path = [self.brouter mapRouteTamplate:@"broute://foo" toHandler:nil];
     XCTAssert(path==nil,@"param should not be nil");
     
-    path = [self.brouter route:@"/foo" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"/foo" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"missing scheme");
     
-    path = [self.brouter route:@"{broute}://foo" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"{broute}://foo" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"br{oute}://foo" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"br{oute}://foo" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"broute:{//}foo" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute:{//}foo" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"broute://{}foo" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute://{}foo" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"broute://foo{/bar}" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute://foo{/bar}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"broute://foo/{bar" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute://foo/{bar" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"broute://foo/bar}" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute://foo/bar}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
 
-    path = [self.brouter route:@"broute://foo/{{bar}}" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"broute://foo/{{bar}}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
     
-    path = [self.brouter route:@"abc://foo{[0-9]+}" toHandler:^(NSDictionary *params) {
+    path = [self.brouter mapRouteTamplate:@"abc://foo{[0-9]+}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"missing param name");
     
-    path = [self.brouter route:@"broute://foo?p=20" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"broute://foo?p=20" toHandler:obj];
     XCTAssert(path==nil,@"no queries in route tamplate");
     
 }
@@ -88,39 +89,39 @@
     NSObject *obj = [NSObject new];
     
     /**/
-    BrouterRoutePath *path = [self.brouter route:@"broute://foo" toHandler:obj];
+    BrouterRoutePath *path = [self.brouter mapRouteTamplate:@"broute://foo" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    BrouterResponse *res = [self.brouter parse:@"broute://foo"];
+    BrouterResponse *res = [self.brouter parseUrl:@"broute://foo"];
     XCTAssert(res.error==nil,@"parse url failed.");
     
-    path = [self.brouter route:@"broute://{foo}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"broute://{foo}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     
     /**/
-    path = [self.brouter route:@"broute://foo/{id}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"broute://foo/{id}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"broute://foo/{bar:[0-9]+}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    res = [self.brouter parse:@"/foo/123"];
+    res = [self.brouter parseUrl:@"/foo/123"];
     XCTAssert(res.error != nil,@"parse url failed.");
     
-    res = [self.brouter parse:@"broute://foo/123"];
+    res = [self.brouter parseUrl:@"broute://foo/123"];
     XCTAssert(res.error==nil,@"parse url failed.");
     XCTAssert(res.params.count==1,@"parse url failed.");
     XCTAssert([res.params[@"bar"] isEqualToString:@"123"],@"parse url failed.");
     
     
-    path = [self.brouter route:@"abc://{foo:[0-9]+}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"abc://{foo:[0-9]+}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"abc://foo{var}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"abc://foo{var}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
-    path = [self.brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:obj];
+    path = [self.brouter mapRouteTamplate:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:obj];
     XCTAssert(path!=nil,@"valid route tamplate");
     
     
@@ -128,7 +129,7 @@
     
     
     
-    res = [self.brouter parse:@"abc://foobar"];
+    res = [self.brouter parseUrl:@"abc://foobar"];
     XCTAssert(res.error==nil,@"parse url failed.");
     XCTAssert(res.params.count==1,@"parse url failed.");
     XCTAssert([res.params[@"var"] isEqualToString:@"bar"],@"parse url failed.");

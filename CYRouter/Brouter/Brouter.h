@@ -11,13 +11,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^BrouterHandlerBlk)(NSDictionary *params);
+#pragma mark - BrouterContext
+@interface BrouterContext : NSObject
+@property (nonatomic, copy) NSString *routeTemplate;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic, strong) NSDictionary *params;
+@end
 
+#pragma mark - BrouterHandlerBlk
+typedef void (^BrouterHandlerBlk)(BrouterContext *context);
+
+#pragma mark - Brouter
 @interface Brouter : NSObject
 @property (nonatomic, strong) BrouterCore *routerCore;
 + (instancetype)defaultRouter;
-
-
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler;
 + (BOOL)canOpenUrl:(NSString *)urlStr;
 + (BOOL)openUrl:urlStr;

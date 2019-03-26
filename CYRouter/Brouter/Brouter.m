@@ -15,6 +15,9 @@
 @implementation BrouterHandler
 @end
 
+@implementation BrouterContext
+@end
+
 @implementation Brouter
 
 - (BrouterCore *)routerCore {
@@ -38,25 +41,29 @@ static Brouter *_instance;
 + (BOOL)route:(NSString *)routeTpl toHandler:(BrouterHandlerBlk)handler {
     BrouterHandler *handlerObj = [BrouterHandler new];
     handlerObj.handlerBlk = handler;
-    BrouterRoutePath *path = [[[self defaultRouter] routerCore] route:routeTpl toHandler:handlerObj];
+    BrouterRoutePath *path = [[[self defaultRouter] routerCore] mapRouteTamplate:routeTpl toHandler:handlerObj];
     
     return path != nil;
 }
 
 
 + (BOOL)canOpenUrl:(NSString *)urlStr {
-    BrouterResponse *response = [[[self defaultRouter] routerCore] parse: urlStr];
+    BrouterResponse *response = [[[self defaultRouter] routerCore] parseUrl: urlStr];
     return response.error != nil;
 }
 
 + (BOOL)openUrl:urlStr {
-    BrouterResponse *response = [[[self defaultRouter] routerCore] parse: urlStr];
+    BrouterResponse *response = [[[self defaultRouter] routerCore] parseUrl: urlStr];
     if (response.error) {
         return NO;
     }
     BrouterHandler *handlerObj = response.routeHandler;
     if ( handlerObj.handlerBlk ) {
-        handlerObj.handlerBlk(response.params);
+        BrouterContext *ctx = [BrouterContext new];
+        
+        ctx.urlString = urlStr;
+        ctx.params = response.params;
+        handlerObj.handlerBlk(ctx);
     }
     return YES;
 }

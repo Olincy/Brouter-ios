@@ -7,17 +7,14 @@
 //
 
 #import "ViewController.h"
-#import "Common.h"
-#import "RegisterRoutesController.h"
-#import "TestRoutesController.h"
-#import "BrouterCore.h"
+#import "Brouter/Brouter.h"
 
 
 @interface ViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray<NSDictionary *> *names2Vcs;
-@property (nonatomic, strong) NSArray *goodUrls;
-@property (nonatomic, strong) NSArray *badUrls;
+@property (nonatomic, strong) NSArray *regUrls;
+@property (nonatomic, strong) NSArray *openUrls;
 @end
 
 @implementation ViewController
@@ -26,111 +23,64 @@
     [super viewDidLoad];
     [self tableView];
     
-//    [[BrouterCore share] inScheme:@"brouter" path2handlers:@[
-//        [BrouteMaker path:@"/path/to/1" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 1");
-//        }],
-//        [BrouteMaker path:@"/path/to/2" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 2");
-//        }],
-//        [BrouteMaker path:@"/path/to/3" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 3");
-//        }],
-//        [BrouteMaker path:@"/path/to1/{id:\\d+}" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 4");
-//        }],
-//
-////        [BrouteMaker path:@"/path/to1/{id:[0-9]+}/{id}" toHandler:^(NSDictionary *params) {
-////        // should get error: duplicate param name
-////        }],
-//        [BrouteMaker path:@"/path/to2/{pv1}" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 5");
-//        }],
-//        [BrouteMaker path:@"brouter://{id:[0-9]+}" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 6");
-//        }],
-//
-////        [BrouteMaker path:@"brouter://" toHandler:^(NSDictionary *params) {
-////            NSLog(@"jump to 6");
-////        }],
-//        [BrouteMaker path:@"brout://{id:[0-9]+}" toHandler:^(NSDictionary *params) {
-//            NSLog(@"jump to 6");
-//        }],
-//    ]];
+    __weak typeof(self) wself = self;
+    BrouterHandlerBlk handler = ^(BrouterContext *ctx) {
+        NSMutableString *queries = [NSMutableString stringWithString:@"queries:"];
+        [ctx.params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+            [queries appendFormat:@"\n%@=%@",key,obj];
+        }];
+        
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"open url: %@",ctx.urlString] message:queries preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+        [wself presentViewController:alert animated:YES completion:nil];
+        
+    };
     
-    self.goodUrls =@[
-                     @"brouter://path/to/1",
-                     @"brouter://path/to1/250",
-                     @"path/to/3",
-                     @"/path/to/3",
-                     @"path/to2/hello",
+    self.regUrls =@[
+                     @"brouter://foo/bar",
+                     @"broute://foo/{id}",
+                     @"broute://foo/{bar:[0-9]+}",
+                     @"broute://{foo:[0-9]+}",
+                     @"abc://foo/bar{bar}",
                      @"brouter://301",
-                     @"http://223.255.255.254"];
+                     @"http://223.255.255.254",
+                     @"http://www.sample.com:8888",
+                     @"abc://{foo:[0-9]+}/{bar}"];
     
-    self.badUrls =@[
-                    @"http://www.sample.com/article/{postId}",
-                        @"http://.",
+    self.openUrls =@[
+                     @"brouter://foo/bar?p=hello",
+                     @"broute://foo/999?q=000",
+                     @"broute://foo/12fuasdf",
+                     @"broute://12345",
+                     @"abc://foo/barsubfix",
+                     @"brouter://301",
+                     @"http://223.255.255.254",
+                     @"http://www.sample.com:8888",
+                     @"abc://123/hello",
+                     @"xxx://foo/bar",
                        ];
     
-    BrouterCore *brouter = [BrouterCore new];
-    BrouterRoutePath *path = [brouter route:nil toHandler:^(NSDictionary *params) {
-    }];
     
-    
-    path = [brouter route:@"/foo" toHandler:nil];
-    
-    
-    path = [brouter route:@"/foo" toHandler:^(NSDictionary *params) {
-    }];
-    
-    
-    path = [brouter route:@"broute://foo?p=20" toHandler:^(NSDictionary *params) {
-    }];
-    path = [brouter route:@"broute://foo/{id}" toHandler:^(NSDictionary *params) {
-    }];
-    path = [brouter route:@"broute://foo/{bar:[0-9]+}" toHandler:^(NSDictionary *params) {
-    }];
-    path = [brouter route:@"abc://{foo:[0-9]+}" toHandler:^(NSDictionary *params) {
-    }];
-    path = [brouter route:@"abc://foo{var}" toHandler:^(NSDictionary *params) {
-    }];
-    path = [brouter route:@"abc://{foo:[0-9]+}/bar{bar}" toHandler:^(NSDictionary *params) {
-    }];
-    
-    BrouterResponse *res = [brouter parse:@"broute://foo/123/?a=a231&b=ccc"];
-    NSLog(@"%@",res.params);
-    res = [brouter parse:@"abc://foohaha"];
-    NSLog(@"%@",res.params);
-    res = [brouter parse:@"abc://996"];
-    NSLog(@"%@",res.params);
-    res = [brouter parse:@"abc://996/bar778"];
-    NSLog(@"%@",res.params);
-    res = [brouter parse:@"/foo/123"];
-    NSLog(@"%@",res.params);
+    for (NSString *url in self.regUrls) {
+        [Brouter route:url toHandler:handler];
+    }
+   
 }
 
 #pragma mark - TableView Datasource & Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section==0) {
-        return self.goodUrls.count;
-    } else {
-        return self.badUrls.count;
-    }
+    return self.openUrls.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSString *title = nil;
-    if (indexPath.section==0) {
-        title = self.goodUrls[indexPath.row];
-    } else {
-        title = self.badUrls[indexPath.row];
-    }
+    NSString *title = self.openUrls[indexPath.row];
     
     cell.textLabel.text = title;
     return cell;
@@ -142,24 +92,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    BrouterCore *router = [BrouterCore new];
-    NSString *url = nil;
-    if (indexPath.section == 0) {
-        url = self.goodUrls[indexPath.row];
+    
+    NSString *url = self.openUrls[indexPath.row];
+    if ([Brouter openUrl:url]) {
+        NSLog(@"open:%@",url);
     } else {
-        url = self.badUrls[indexPath.row];
+        NSLog(@"cannot open:%@",url);
     }
-    
-//    [router inScheme:@"brouter" addPath:url toHandler:^(NSDictionary *params) {
-//    }];
-//    [[BrouterCore share]push:url];
-    
 }
 
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenW, self.view.bounds.size.height)];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, self.view.bounds.size.height)];
         [self.view addSubview:_tableView];
         _tableView.delegate = self;
         _tableView.dataSource = self;

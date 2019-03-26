@@ -24,28 +24,26 @@
 @end
 
 #pragma mark - BrouterRouteTamplate
-@interface BrouterRouteTamplate ()
-@property (nonatomic, strong) NSRegularExpression *compiledRegex;
+@interface BrouterRouteTamplate : NSObject
+@property (nonatomic, copy) NSString *scheme;
+@property (nonatomic, copy) NSString *routeKey;
+@property (nonatomic, copy) NSString *originalTemplate;
+@property (nonatomic, strong) NSRegularExpression *regex;
 @property (nonatomic, copy) NSArray<BrouteParamPattern *> *paramPatterns;
 @end
 @implementation BrouterRouteTamplate
 @end
 
-#pragma mark - BroutePath
+#pragma mark - BrouterRoutePath
 @interface BrouterRoutePath ()
 @property (nonatomic, strong) BrouterRouteTamplate *compiledTamplate;
+@property (nonatomic, strong) id routeHandler;
 @end
 
 @implementation BrouterRoutePath
 
-- (BOOL)isEqual:(id)object {
-    if ([object isKindOfClass:[self class]]) {
-        BrouterRoutePath *bPath = (BrouterRoutePath *)object;
-        if ([self.pathRegex.pattern isEqual:bPath.pathRegex.pattern]) {
-            return YES;
-        }
-    }
-    return NO;
+- (NSString *)routeTamplate {
+    return self.compiledTamplate.originalTemplate;
 }
 
 @end
@@ -63,7 +61,7 @@
 @implementation BrouterCore
 
 #pragma mark Public Methods
-- (BrouterRoutePath *)route:(NSString *)routeTpl toHandler:(id)handler {
+- (BrouterRoutePath *)mapRouteTamplate:(NSString *)routeTpl toHandler:(id)handler {
     if (handler == nil || routeTpl.length == 0) {
         NSLog(@"trying register an empty path or handler");
         return nil;
@@ -74,16 +72,14 @@
         NSLog(@"invalid route tamplate:%@",routeTpl);
         return nil;
     }
-    
+    tamplate.originalTemplate = routeTpl;
     
     //trying find registered scheme from map
     BrouterRoutePath *bPath = nil;
     if (tamplate.paramPatterns.count) { // with params
-        NSRegularExpression *compiledRegex = [self compileRegex:routeTpl params:tamplate.paramPatterns];
         
         NSMutableOrderedSet<BrouterRoutePath *> *routeRegexes = [self.regexRoutesMap objectForKey:tamplate.routeKey];
         bPath = [BrouterRoutePath new];
-        bPath.pathRegex = compiledRegex;
         bPath.routeHandler = handler;
         bPath.compiledTamplate = tamplate;
         if (routeRegexes == nil) {
@@ -110,7 +106,7 @@
     return bPath;
 }
 
-- (BrouterResponse *)parse:(NSString *)urlStr {
+- (BrouterResponse *)parseUrl:(NSString *)urlStr {
     BrouterResponse *bResponse = [BrouterResponse new];
     if (urlStr.length == 0) {
         bResponse.error = [NSError br_error:@"empty url string."];
@@ -157,6 +153,7 @@
         }
         
     } else {
+        bResponse.params = params;
         bResponse.routeHandler = path.routeHandler;
     }
     
@@ -275,16 +272,16 @@
     }
     tamplate.paramPatterns = paramPatterns;
     tamplate.routeKey = routeKey?:routeTpl;
-    tamplate.compiledRegex = [self compileRegex:routeTpl params:tamplate.paramPatterns];
+    tamplate.regex = [self compileRegex:routeTpl params:tamplate.paramPatterns];
     
     return  tamplate;
 }
 
 
 - (NSDictionary *)matchRoute:(BrouterRoutePath *)bRoute withUrlStr:(NSString *)urlStr {
-    if (bRoute.pathRegex == nil) {return nil;}
+    if (bRoute.compiledTamplate.regex == nil) {return nil;}
     
-    NSArray* matches = [bRoute.pathRegex matchesInString:urlStr options:0 range: NSMakeRange(0, urlStr.length)];
+    NSArray* matches = [bRoute.compiledTamplate.regex matchesInString:urlStr options:0 range: NSMakeRange(0, urlStr.length)];
     if (matches.count) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         NSTextCheckingResult* match = matches.firstObject;
