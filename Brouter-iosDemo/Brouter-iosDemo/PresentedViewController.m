@@ -1,23 +1,22 @@
 //
-//  PushedViewController.m
-//  CYRouter
+//  PresentedViewController.m
+//  Brouter-iosDemo
 //
-//  Created by candy on 2019/3/26.
-//  Copyright © 2019 lincy. All rights reserved.
+//  Created by candy on 2019/3/27.
+//  Copyright © 2019 Brouter. All rights reserved.
 //
 
-#import "PushedViewController.h"
+#import "PresentedViewController.h"
 
-@interface PushedViewController ()
+@interface PresentedViewController ()
 
 @end
 
-@implementation PushedViewController
+@implementation PresentedViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor yellowColor];
-    self.title = @"Pushed Controller";
+    // Do any additional setup after loading the view.
 }
 
 /*

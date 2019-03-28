@@ -1,9 +1,9 @@
 //
 //  main.m
-//  CYRouter
+//  Brouter-iosDemo
 //
-//  Created by lincy on 2018/7/9.
-//  Copyright © 2018年 lincy. All rights reserved.
+//  Created by candy on 2019/3/27.
+//  Copyright © 2019 Brouter. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,36 +1,30 @@
 //
-//  CYRouterTests.m
-//  CYRouterTests
+//  Brouter_iosDemoTests.m
+//  Brouter-iosDemoTests
 //
-//  Created by lincy on 2018/7/9.
-//  Copyright © 2018年 lincy. All rights reserved.
+//  Created by candy on 2019/3/27.
+//  Copyright © 2019 Brouter. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 #import "BrouterCore.h"
-#import "Brouter.h"
 
-
-@interface CYRouterTests : XCTestCase
+@interface Brouter_iosDemoTests : XCTestCase
 @property (nonatomic, strong) BrouterCore *brouter;
 @end
 
-@implementation CYRouterTests
+@implementation Brouter_iosDemoTests
 
 - (void)setUp {
-    [super setUp];
     self.brouter = [BrouterCore new];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
     self.brouter = nil;
-    [super tearDown];
 }
 
-- (void)testRouterCoreRegister {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testExample {
+    
     NSObject *obj = [NSObject new];
     BrouterRoutePath *path = [self.brouter mapRouteTamplate:nil toHandler:^(NSDictionary *params) {
     }];
@@ -70,7 +64,7 @@
     path = [self.brouter mapRouteTamplate:@"broute://foo/bar}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
-
+    
     path = [self.brouter mapRouteTamplate:@"broute://foo/{{bar}}" toHandler:^(NSDictionary *params) {
     }];
     XCTAssert(path==nil,@"invalid route tamplate");
@@ -81,7 +75,6 @@
     
     path = [self.brouter mapRouteTamplate:@"broute://foo?p=20" toHandler:obj];
     XCTAssert(path==nil,@"no queries in route tamplate");
-    
 }
 
 - (void)testRouterCoreParse {
@@ -136,17 +129,6 @@
     
 }
 
-
-// 测试Router的注册
-- (void)testRouterRegister {
-    
-}
-
-
-// 测试Router的解析
-- (void)testRouterParse {
-    
-}
 
 - (void)testPerformanceExample {
     // This is an example of a performance test case.

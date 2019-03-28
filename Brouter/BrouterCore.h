@@ -46,6 +46,7 @@
 
  @param routeTemplate : Route template, like scheme://foo/bar , scheme://foo/{bar:[0-9]+}
  注意：注册的route需要符合 RFC 3986 标准，尽管注册的方法检查不严格，但是[parseUrl:]方法用NSURLComponents检查合法性，不能生成NSURLComponents对象的url视为费非法的url。
+    url匹配优先级：不带url参数>带url参数（如果两个注册的带参数url范围重合，会优先匹配最近注册的url）
  @param handler : A object, which will return back when an url parsing success.
  
  @return BrouterRoutePath object.return nil if register failed.

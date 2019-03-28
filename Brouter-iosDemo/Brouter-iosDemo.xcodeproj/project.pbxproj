@@ -1,0 +1,633 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		367B6106224B61AF005CAE0A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B6105224B61AF005CAE0A /* AppDelegate.m */; };
+		367B6109224B61AF005CAE0A /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B6108224B61AF005CAE0A /* PushedViewController.m */; };
+		367B610C224B61AF005CAE0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367B610A224B61AF005CAE0A /* Main.storyboard */; };
+		367B610E224B61B2005CAE0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 367B610D224B61B2005CAE0A /* Assets.xcassets */; };
+		367B6111224B61B2005CAE0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367B610F224B61B2005CAE0A /* LaunchScreen.storyboard */; };
+		367B6114224B61B2005CAE0A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B6113224B61B2005CAE0A /* main.m */; };
+		367B611E224B61B3005CAE0A /* Brouter_iosDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B611D224B61B3005CAE0A /* Brouter_iosDemoTests.m */; };
+		367B6129224B61B3005CAE0A /* Brouter_iosDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B6128224B61B3005CAE0A /* Brouter_iosDemoUITests.m */; };
+		367B613F224B62FC005CAE0A /* BrouterAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B613A224B62FC005CAE0A /* BrouterAdditions.m */; };
+		367B6140224B62FC005CAE0A /* BrouterCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B613B224B62FC005CAE0A /* BrouterCore.m */; };
+		367B6141224B62FC005CAE0A /* Brouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B613E224B62FC005CAE0A /* Brouter.m */; };
+		367B6144224B64BC005CAE0A /* HomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B6143224B64BC005CAE0A /* HomeTableViewController.m */; };
+		367B614B224B68AF005CAE0A /* PresentedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 367B614A224B68AF005CAE0A /* PresentedViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		367B611A224B61B3005CAE0A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 367B60F9224B61AF005CAE0A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 367B6100224B61AF005CAE0A;
+			remoteInfo = "Brouter-iosDemo";
+		};
+		367B6125224B61B3005CAE0A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 367B60F9224B61AF005CAE0A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 367B6100224B61AF005CAE0A;
+			remoteInfo = "Brouter-iosDemo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		367B6101224B61AF005CAE0A /* Brouter-iosDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Brouter-iosDemo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		367B6104224B61AF005CAE0A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		367B6105224B61AF005CAE0A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		367B6107224B61AF005CAE0A /* PushedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
+		367B6108224B61AF005CAE0A /* PushedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
+		367B610B224B61AF005CAE0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		367B610D224B61B2005CAE0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		367B6110224B61B2005CAE0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		367B6112224B61B2005CAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		367B6113224B61B2005CAE0A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		367B6119224B61B3005CAE0A /* Brouter-iosDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Brouter-iosDemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		367B611D224B61B3005CAE0A /* Brouter_iosDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Brouter_iosDemoTests.m; sourceTree = "<group>"; };
+		367B611F224B61B3005CAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		367B6124224B61B3005CAE0A /* Brouter-iosDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Brouter-iosDemoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		367B6128224B61B3005CAE0A /* Brouter_iosDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Brouter_iosDemoUITests.m; sourceTree = "<group>"; };
+		367B612A224B61B3005CAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		367B6139224B62FC005CAE0A /* Brouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Brouter.h; sourceTree = "<group>"; };
+		367B613A224B62FC005CAE0A /* BrouterAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrouterAdditions.m; sourceTree = "<group>"; };
+		367B613B224B62FC005CAE0A /* BrouterCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrouterCore.m; sourceTree = "<group>"; };
+		367B613C224B62FC005CAE0A /* BrouterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrouterCore.h; sourceTree = "<group>"; };
+		367B613D224B62FC005CAE0A /* BrouterAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrouterAdditions.h; sourceTree = "<group>"; };
+		367B613E224B62FC005CAE0A /* Brouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Brouter.m; sourceTree = "<group>"; };
+		367B6142224B64BC005CAE0A /* HomeTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeTableViewController.h; sourceTree = "<group>"; };
+		367B6143224B64BC005CAE0A /* HomeTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewController.m; sourceTree = "<group>"; };
+		367B6149224B68AF005CAE0A /* PresentedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresentedViewController.h; sourceTree = "<group>"; };
+		367B614A224B68AF005CAE0A /* PresentedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PresentedViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		367B60FE224B61AF005CAE0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6116224B61B3005CAE0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6121224B61B3005CAE0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		367B60F8224B61AF005CAE0A = {
+			isa = PBXGroup;
+			children = (
+				367B6138224B62FC005CAE0A /* Brouter */,
+				367B6103224B61AF005CAE0A /* Brouter-iosDemo */,
+				367B611C224B61B3005CAE0A /* Brouter-iosDemoTests */,
+				367B6127224B61B3005CAE0A /* Brouter-iosDemoUITests */,
+				367B6102224B61AF005CAE0A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		367B6102224B61AF005CAE0A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				367B6101224B61AF005CAE0A /* Brouter-iosDemo.app */,
+				367B6119224B61B3005CAE0A /* Brouter-iosDemoTests.xctest */,
+				367B6124224B61B3005CAE0A /* Brouter-iosDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		367B6103224B61AF005CAE0A /* Brouter-iosDemo */ = {
+			isa = PBXGroup;
+			children = (
+				367B6104224B61AF005CAE0A /* AppDelegate.h */,
+				367B6105224B61AF005CAE0A /* AppDelegate.m */,
+				367B6142224B64BC005CAE0A /* HomeTableViewController.h */,
+				367B6143224B64BC005CAE0A /* HomeTableViewController.m */,
+				367B6107224B61AF005CAE0A /* PushedViewController.h */,
+				367B6108224B61AF005CAE0A /* PushedViewController.m */,
+				367B6149224B68AF005CAE0A /* PresentedViewController.h */,
+				367B614A224B68AF005CAE0A /* PresentedViewController.m */,
+				367B6146224B64EC005CAE0A /* Configs */,
+				367B6145224B64D1005CAE0A /* Resources */,
+				367B6113224B61B2005CAE0A /* main.m */,
+			);
+			path = "Brouter-iosDemo";
+			sourceTree = "<group>";
+		};
+		367B611C224B61B3005CAE0A /* Brouter-iosDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				367B611D224B61B3005CAE0A /* Brouter_iosDemoTests.m */,
+				367B611F224B61B3005CAE0A /* Info.plist */,
+			);
+			path = "Brouter-iosDemoTests";
+			sourceTree = "<group>";
+		};
+		367B6127224B61B3005CAE0A /* Brouter-iosDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				367B6128224B61B3005CAE0A /* Brouter_iosDemoUITests.m */,
+				367B612A224B61B3005CAE0A /* Info.plist */,
+			);
+			path = "Brouter-iosDemoUITests";
+			sourceTree = "<group>";
+		};
+		367B6138224B62FC005CAE0A /* Brouter */ = {
+			isa = PBXGroup;
+			children = (
+				367B6139224B62FC005CAE0A /* Brouter.h */,
+				367B613E224B62FC005CAE0A /* Brouter.m */,
+				367B613C224B62FC005CAE0A /* BrouterCore.h */,
+				367B613B224B62FC005CAE0A /* BrouterCore.m */,
+				367B613D224B62FC005CAE0A /* BrouterAdditions.h */,
+				367B613A224B62FC005CAE0A /* BrouterAdditions.m */,
+			);
+			name = Brouter;
+			path = ../Brouter;
+			sourceTree = "<group>";
+		};
+		367B6145224B64D1005CAE0A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				367B610A224B61AF005CAE0A /* Main.storyboard */,
+				367B610D224B61B2005CAE0A /* Assets.xcassets */,
+				367B610F224B61B2005CAE0A /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		367B6146224B64EC005CAE0A /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				367B6112224B61B2005CAE0A /* Info.plist */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		367B6100224B61AF005CAE0A /* Brouter-iosDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 367B612D224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemo" */;
+			buildPhases = (
+				367B60FD224B61AF005CAE0A /* Sources */,
+				367B60FE224B61AF005CAE0A /* Frameworks */,
+				367B60FF224B61AF005CAE0A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Brouter-iosDemo";
+			productName = "Brouter-iosDemo";
+			productReference = 367B6101224B61AF005CAE0A /* Brouter-iosDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		367B6118224B61B3005CAE0A /* Brouter-iosDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 367B6130224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemoTests" */;
+			buildPhases = (
+				367B6115224B61B3005CAE0A /* Sources */,
+				367B6116224B61B3005CAE0A /* Frameworks */,
+				367B6117224B61B3005CAE0A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				367B611B224B61B3005CAE0A /* PBXTargetDependency */,
+			);
+			name = "Brouter-iosDemoTests";
+			productName = "Brouter-iosDemoTests";
+			productReference = 367B6119224B61B3005CAE0A /* Brouter-iosDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		367B6123224B61B3005CAE0A /* Brouter-iosDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 367B6133224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemoUITests" */;
+			buildPhases = (
+				367B6120224B61B3005CAE0A /* Sources */,
+				367B6121224B61B3005CAE0A /* Frameworks */,
+				367B6122224B61B3005CAE0A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				367B6126224B61B3005CAE0A /* PBXTargetDependency */,
+			);
+			name = "Brouter-iosDemoUITests";
+			productName = "Brouter-iosDemoUITests";
+			productReference = 367B6124224B61B3005CAE0A /* Brouter-iosDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		367B60F9224B61AF005CAE0A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Brouter;
+				TargetAttributes = {
+					367B6100224B61AF005CAE0A = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					367B6118224B61B3005CAE0A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 367B6100224B61AF005CAE0A;
+					};
+					367B6123224B61B3005CAE0A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 367B6100224B61AF005CAE0A;
+					};
+				};
+			};
+			buildConfigurationList = 367B60FC224B61AF005CAE0A /* Build configuration list for PBXProject "Brouter-iosDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 367B60F8224B61AF005CAE0A;
+			productRefGroup = 367B6102224B61AF005CAE0A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				367B6100224B61AF005CAE0A /* Brouter-iosDemo */,
+				367B6118224B61B3005CAE0A /* Brouter-iosDemoTests */,
+				367B6123224B61B3005CAE0A /* Brouter-iosDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		367B60FF224B61AF005CAE0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				367B6111224B61B2005CAE0A /* LaunchScreen.storyboard in Resources */,
+				367B610E224B61B2005CAE0A /* Assets.xcassets in Resources */,
+				367B610C224B61AF005CAE0A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6117224B61B3005CAE0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6122224B61B3005CAE0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		367B60FD224B61AF005CAE0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				367B6109224B61AF005CAE0A /* PushedViewController.m in Sources */,
+				367B6114224B61B2005CAE0A /* main.m in Sources */,
+				367B6140224B62FC005CAE0A /* BrouterCore.m in Sources */,
+				367B6144224B64BC005CAE0A /* HomeTableViewController.m in Sources */,
+				367B6141224B62FC005CAE0A /* Brouter.m in Sources */,
+				367B614B224B68AF005CAE0A /* PresentedViewController.m in Sources */,
+				367B6106224B61AF005CAE0A /* AppDelegate.m in Sources */,
+				367B613F224B62FC005CAE0A /* BrouterAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6115224B61B3005CAE0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				367B611E224B61B3005CAE0A /* Brouter_iosDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		367B6120224B61B3005CAE0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				367B6129224B61B3005CAE0A /* Brouter_iosDemoUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		367B611B224B61B3005CAE0A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 367B6100224B61AF005CAE0A /* Brouter-iosDemo */;
+			targetProxy = 367B611A224B61B3005CAE0A /* PBXContainerItemProxy */;
+		};
+		367B6126224B61B3005CAE0A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 367B6100224B61AF005CAE0A /* Brouter-iosDemo */;
+			targetProxy = 367B6125224B61B3005CAE0A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		367B610A224B61AF005CAE0A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				367B610B224B61AF005CAE0A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		367B610F224B61B2005CAE0A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				367B6110224B61B2005CAE0A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		367B612B224B61B3005CAE0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		367B612C224B61B3005CAE0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		367B612E224B61B3005CAE0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "$(SRCROOT)/Brouter-iosDemo/Configs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		367B612F224B61B3005CAE0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "$(SRCROOT)/Brouter-iosDemo/Configs/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		367B6131224B61B3005CAE0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Brouter-iosDemoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brouter-iosDemo.app/Brouter-iosDemo";
+			};
+			name = Debug;
+		};
+		367B6132224B61B3005CAE0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Brouter-iosDemoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brouter-iosDemo.app/Brouter-iosDemo";
+			};
+			name = Release;
+		};
+		367B6134224B61B3005CAE0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Brouter-iosDemoUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Brouter-iosDemo";
+			};
+			name = Debug;
+		};
+		367B6135224B61B3005CAE0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Brouter-iosDemoUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brouter.Brouter-iosDemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Brouter-iosDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		367B60FC224B61AF005CAE0A /* Build configuration list for PBXProject "Brouter-iosDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				367B612B224B61B3005CAE0A /* Debug */,
+				367B612C224B61B3005CAE0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		367B612D224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				367B612E224B61B3005CAE0A /* Debug */,
+				367B612F224B61B3005CAE0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		367B6130224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				367B6131224B61B3005CAE0A /* Debug */,
+				367B6132224B61B3005CAE0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		367B6133224B61B3005CAE0A /* Build configuration list for PBXNativeTarget "Brouter-iosDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				367B6134224B61B3005CAE0A /* Debug */,
+				367B6135224B61B3005CAE0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 367B60F9224B61AF005CAE0A /* Project object */;
+}

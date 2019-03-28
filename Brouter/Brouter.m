@@ -8,15 +8,27 @@
 
 #import "Brouter.h"
 
+typedef enum : NSUInteger {
+    BrouterHandlerTypeBlk,
+    BrouterHandlerTypeVC,
+} BrouterHandlerType;
+
 @interface BrouterHandler : NSObject
+@property (nonatomic, assign) BrouterHandlerType handlerType;
 @property (nonatomic, copy) BrouterHandlerBlk handlerBlk;
 @property (nonatomic, copy) NSString *viewControllerName;
 @end
-
 @implementation BrouterHandler
 @end
 
 @implementation BrouterContext
+@end
+
+
+#pragma mark - Brouter
+@interface Brouter ()
+@property (nonatomic, strong) BrouterCore *routerCore;
++ (instancetype)defaultRouter;
 @end
 
 @implementation Brouter
@@ -47,14 +59,6 @@ static Brouter *_instance;
     return path != nil;
 }
 
-+ (BOOL)route:(NSString *)routeTpl toViewController:(NSString *)vcName {
-    BrouterHandler *handlerObj = [BrouterHandler new];
-    handlerObj.viewControllerName = vcName;
-    BrouterRoutePath *path = [[[self defaultRouter] routerCore] mapRouteTamplate:routeTpl toHandler:handlerObj];
-    
-    return path != nil;
-}
-
 
 + (BOOL)canOpenUrl:(NSString *)urlStr {
     BrouterResponse *response = [[[self defaultRouter] routerCore] parseUrl: urlStr];
@@ -66,14 +70,16 @@ static Brouter *_instance;
     if (response.error) {
         return NO;
     }
+    
     BrouterHandler *handlerObj = response.routeHandler;
     if ( handlerObj.handlerBlk ) {
         BrouterContext *ctx = [BrouterContext new];
-        
         ctx.urlString = urlStr;
         ctx.params = response.params;
         handlerObj.handlerBlk(ctx);
-    }
+    } else if (handlerObj.viewControllerName.length) {
+        
+    } else {}
     return YES;
 }
 
@@ -81,41 +87,3 @@ static Brouter *_instance;
 
 @end
 
-
-@implementation UIViewController (Brouter)
-
-- (Class)viewControllerClassWithUrl:(NSString *)urlStr {
-    BrouterResponse *response = [[[Brouter defaultRouter] routerCore] parseUrl: urlStr];
-    if (response.error) {
-        return nil;
-    }
-    BrouterHandler *handlerObj = response.routeHandler;
-    Class vcClass = NSClassFromString(handlerObj.viewControllerName);
-    if (!vcClass || ![vcClass isSubclassOfClass:[UIViewController class]]) {
-        return nil;
-    }
-    return vcClass;
-}
-
-
-- (BOOL)pushUrl:(NSString *)urlStr {
-    Class vcClass = [self viewControllerClassWithUrl:urlStr];
-    if (!vcClass) {
-        return NO;
-    }
-    UIViewController *vc = [vcClass new];
-    [self.navigationController pushViewController:vc animated:YES];
-    return YES;
-}
-
-- (BOOL)presentUrl:(NSString *)urlStr {
-    Class vcClass = [self viewControllerClassWithUrl:urlStr];
-    if (!vcClass) {
-        return NO;
-    }
-    UIViewController *vc = [vcClass new];
-    [self presentViewController:vc animated:YES completion:nil];
-    return YES;
-}
-
-@end
